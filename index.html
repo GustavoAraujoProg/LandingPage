@@ -1,0 +1,5668 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusividade e Design - Um Novo Conceito de Morar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #1A1A1A;
+            --secondary-dark: #2C2C2C;
+            --light-gray: #F5F5F5;
+            --medium-gray: #EAEAEA;
+            --accent-gold: #B59458;
+            --accent-gold-light: #D4AF37;
+            --white: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--primary-black);
+            overflow-x: hidden;
+            background: var(--primary-black);
+        }
+
+        .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-black), var(--secondary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 100px;
+            height: 100px;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: relative;
+        }
+
+        .loader::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+       
+
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float-particle 20s linear infinite;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 50px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled {
+            padding: 15px 50px;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            text-shadow: 0 0 20px var(--accent-gold);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+/* ✅ MENU HAMBURGER CORRIGIDO */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 8px;
+    position: relative;
+    z-index: 1001;
+    background: none;
+    border: none;
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--white);
+    margin: 3px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* ✅ MENU HAMBURGER SUPER BONITO */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 12px;
+    position: relative;
+    z-index: 1001;
+    background: rgba(181, 148, 88, 0.1);
+    border: 2px solid rgba(181, 148, 88, 0.3);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.menu-toggle:hover {
+    background: rgba(181, 148, 88, 0.2);
+    border-color: var(--accent-gold);
+    transform: scale(1.05);
+}
+
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--white);
+    margin: 3px 0;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.menu-toggle.active {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold-light);
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+    background: var(--white);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+    background: var(--white);
+}
+
+/* MENU MOBILE PREMIUM */
+.nav-menu.mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 26, 0.98) 0%, 
+        rgba(44, 44, 44, 0.95) 100%);
+    backdrop-filter: blur(30px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    opacity: 0;
+}
+
+.nav-menu.mobile.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* PADRÃO DECORATIVO NO FUNDO */
+.nav-menu.mobile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23B59458" opacity="0.3"/><circle cx="80" cy="30" r="1.5" fill="%23D4AF37" opacity="0.4"/><circle cx="30" cy="70" r="1" fill="%23B59458" opacity="0.5"/></svg>');
+    animation: floatPattern 20s linear infinite;
+}
+
+/* LOGO NO TOPO DO MENU */
+.nav-menu.mobile::after {
+    content: 'Residencial Emboabas';
+    position: absolute;
+    top: 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-shadow: 0 0 20px rgba(181, 148, 88, 0.5);
+    letter-spacing: 2px;
+}
+
+.nav-menu.mobile li {
+    margin: 5px 0;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideInUp 0.6s ease forwards;
+}
+
+.nav-menu.mobile li:nth-child(1) { animation-delay: 0.1s; }
+.nav-menu.mobile li:nth-child(2) { animation-delay: 0.2s; }
+.nav-menu.mobile li:nth-child(3) { animation-delay: 0.3s; }
+.nav-menu.mobile li:nth-child(4) { animation-delay: 0.4s; }
+.nav-menu.mobile li:nth-child(5) { animation-delay: 0.5s; }
+.nav-menu.mobile li:nth-child(6) { animation-delay: 0.6s; }
+
+.nav-menu.mobile a {
+    display: block;
+    padding: 20px 50px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--white);
+    text-decoration: none;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    min-width: 250px;
+    letter-spacing: 1px;
+}
+
+/* EFEITO DE BRILHO NO HOVER */
+.nav-menu.mobile a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(181, 148, 88, 0.3), 
+        transparent);
+    transition: left 0.5s ease;
+}
+
+.nav-menu.mobile a:hover::before {
+    left: 100%;
+}
+
+.nav-menu.mobile a:hover {
+    border-color: var(--accent-gold);
+    background: linear-gradient(45deg, 
+        rgba(181, 148, 88, 0.2), 
+        rgba(212, 175, 55, 0.1));
+    color: var(--accent-gold-light);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(181, 148, 88, 0.3);
+}
+
+/* BOTÃO DE FECHAR */
+.nav-menu.mobile .close-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: rgba(181, 148, 88, 0.2);
+    border: 2px solid var(--accent-gold);
+    border-radius: 50%;
+    color: var(--white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-menu.mobile .close-btn:hover {
+    background: var(--accent-gold);
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 5px 15px rgba(181, 148, 88, 0.4);
+}
+
+/* MOSTRAR HAMBURGER */
+@media (max-width: 1024px) {
+    .menu-toggle {
+        display: flex !important;
+    }
+
+    .nav-menu:not(.mobile) {
+        display: none !important;
+    }
+}
+
+/* ANIMAÇÕES */
+@keyframes slideInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatPattern {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+    100% { transform: translateY(0px) rotate(360deg); }
+}
+
+/* EFEITO BLUR NO FUNDO */
+.nav-menu.mobile.show ~ .hero,
+.nav-menu.mobile.show ~ .concept,
+.nav-menu.mobile.show ~ .amenities {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+}
+/* MOBILE - AJUSTES FINAIS */
+@media (max-width: 768px) {
+    .nav {
+        padding: 15px 20px !important;   /* Menos padding */
+    }
+    
+    .nav-content {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .menu-toggle {
+        margin-left: auto;               /* Empurra para direita mas sem sair */
+    }
+}
+
+        .nav-menu a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: radial-gradient(ellipse at center, var(--secondary-dark) 0%, var(--primary-black) 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, var(--accent-gold) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, var(--accent-gold) 0%, transparent 50%);
+            opacity: 0.1;
+            animation: aurora 8s ease-in-out infinite alternate;
+        }
+
+        .hero-bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+             background: url('./FACHADA_INTERNA3.png') center/cover;
+            
+            opacity: 0.4;
+            animation: cityscape 15s ease-in-out infinite;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 30px;
+            color: var(--white);
+            text-align: left;
+            opacity: 0;
+            transform: translateY(100px);
+            animation: heroSlideUp 1.5s ease 0.5s forwards;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero .subtitle {
+            font-size: 1.6rem;
+            color: var(--medium-gray);
+            margin-bottom: 50px;
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: heroSlideUp 1.5s ease 0.8s forwards;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroSlideUp 1.5s ease 1.1s forwards;
+        }
+
+       .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;                          /* ✅ Espaço entre ícone e texto */
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.1rem;                  /* ✅ Tamanho mais equilibrado */
+    font-weight: 600;
+    padding: 20px 40px;                 /* ✅ Padding maior */
+    border: 2px solid var(--accent-gold);
+    border-radius: 50px;
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 200px;                   /* ✅ Largura mínima */
+    justify-content: center;            /* ✅ Centraliza conteúdo */
+    box-shadow: 0 6px 20px rgba(181, 148, 88, 0.3);  /* ✅ Sombra inicial */
+}
+
+.cta-button:hover {
+    transform: translateY(-4px);        /* ✅ Mais elevação */
+    box-shadow: 0 12px 35px rgba(181, 148, 88, 0.5);
+}
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(181, 148, 88, 0.4);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--accent-gold);
+            border: 2px solid var(--accent-gold);
+        }
+
+        .cta-secondary:hover {
+            background: var(--accent-gold);
+            color: var(--white);
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+        }
+
+        /* Concept Section */
+        .concept {
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+            position: relative;
+        }
+
+        .concept::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 30%, var(--accent-gold) 0%, transparent 70%);
+            opacity: 0.05;
+        }
+
+        .concept-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .concept h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 40px;
+            color: var(--primary-black);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .concept p {
+            font-size: 1.3rem;
+            line-height: 1.9;
+            color: var(--secondary-dark);
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        .concept-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+      
+
+        .concept-visual {
+            height: 500px;
+            background: linear-gradient(135deg, var(--secondary-dark), var(--primary-black));
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: logoFloat 6s ease-in-out infinite;
+        }
+
+        .logo-placeholder {
+            font-size: 1.2rem;
+            color: var(--secondary-dark);
+            text-align: center;
+            font-weight: 100;
+            line-height: 1.4;
+        }
+
+       
+
+
+        /* Advanced Amenities Section */
+        .amenities {
+            background: var(--primary-black);
+            color: var(--white);
+            position: relative;
+        }
+
+
+        .amenities h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 80px;
+            color: var(--white);
+            font-weight: 700;
+            text-shadow: 0 0 30px var(--accent-gold);
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+        }
+
+       .amenity-card {
+    background-size: cover;              /* ✅ Imagem cobre todo o card */
+    background-position: center;         /* ✅ Centraliza a imagem */
+    background-repeat: no-repeat;
+    border: 1px solid var(--glass-border);
+    border-radius: 25px;
+    padding: 50px;
+    text-align: center;
+    transition: all 0.5s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    min-height: 300px;                   /* ✅ Altura mínima para o card */
+}
+
+/* Overlay escuro sobre a imagem */
+.amenity-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);      /* ✅ Escurece a imagem */
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.amenity-card:hover::before {
+    background: rgba(0, 0, 0, 0.4);      /* ✅ Mais claro no hover */
+}
+
+/* Conteúdo na frente */
+.amenity-card h3,
+.amenity-card p {
+    position: relative;
+    z-index: 2;                          /* ✅ Texto na frente da imagem */
+    color: var(--white);
+}
+
+/* Remove a bolinha */
+.amenity-icon {
+    display: none;                       /* ✅ Remove a bolinha dourada */
+}
+
+.amenity-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;                   /* ✅ Preenche o círculo */
+    object-position: center;
+}
+
+        .amenity-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: var(--white);
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .amenity-card p {
+            color: var(--medium-gray);
+            font-weight: 300;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Interactive Floor Plans */
+        .floor-plans {
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+            position: relative;
+        }
+
+        .floor-plans h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 80px;
+            color: var(--primary-black);
+            font-weight: 700;
+        }
+
+        .plans-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: var(--white);
+            border: 2px solid var(--medium-gray);
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            color: var(--secondary-dark);
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+            transition: left 0.3s ease;
+        }
+
+        .tab-button.active::before,
+        .tab-button:hover::before {
+            left: 0;
+        }
+
+        .tab-button.active,
+        .tab-button:hover {
+            color: var(--white);
+            border-color: var(--accent-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(181, 148, 88, 0.3);
+        }
+
+        .tab-button span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .plan-content {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--medium-gray);
+        }
+
+    .plan-info h3 {
+    font-size: 2.8rem;                  /* ✅ Maior */
+    margin-bottom: 40px;
+    color: var(--primary-black);
+    font-weight: 700;
+    line-height: 1.2;                   /* ✅ Espaçamento das linhas */
+    position: relative;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* ✅ Sombra sutil */
+}
+
+/* ✅ ADICIONE uma linha decorativa embaixo do título: */
+.plan-info h3::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(181, 148, 88, 0.3);
+}
+
+/* ✅ OU se preferir um efeito de gradiente no texto: */
+.plan-info h3.gradient-text {
+    background: linear-gradient(45deg, var(--primary-black), var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ✅ ADICIONE este novo CSS para título sobre a imagem: */
+p
+
+.room-title-overlay h3 {
+    color: var(--white);
+    font-size: 2rem;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);  /* ✅ Sombra no texto */
+    background: linear-gradient(45deg, var(--white), var(--accent-gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;        /* ✅ Texto com gradiente */
+    background-clip: text;
+}
+
+        .plan-details {
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .plan-details span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--light-gray);
+            padding: 15px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            color: var(--secondary-dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .plan-details span:hover {
+            background: var(--accent-gold);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .plan-description {
+    font-size: 1.3rem;                  /* ✅ Pouco maior */
+    line-height: 1.8;                   /* ✅ Mais espaço entre linhas */
+    color: var(--secondary-dark);
+    margin-bottom: 50px;                /* ✅ Mais espaço embaixo */
+    font-weight: 300;
+    max-width: 500px;                   /* ✅ Limita a largura para melhor leitura */
+}
+
+.room-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.plan-visual {
+    width: 100%;
+    min-height: 1000px;               
+    max-height: 100vh;                
+    background: linear-gradient(135deg, var(--light-gray), var(--medium-gray));
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.1);
+    display: flex;                   
+    align-items: center;
+    justify-content: center;
+}
+
+.room-image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.room-image {
+    width: 140%;                     /* ✅ 100% da largura */
+    height: 100%;                    /* ✅ 100% da altura */
+    object-fit: cover;               /* ✅ Preenche completamente */
+    object-position: center;         
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+
+
+/* ✅ Responsivo para diferentes telas */
+@media (max-width: 768px) {
+    .plan-visual {
+        min-height: 250px;
+        max-height: 70vh;
+    }
+    
+    .room-image {
+        max-width: 90%;
+        max-height: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .plan-visual {
+        min-height: 200px;
+        max-height: 60vh;
+    }
+}
+
+/* ✅ Para imagens muito altas */
+@media (orientation: portrait) and (max-width: 768px) {
+    .plan-visual {
+        min-height: 400px;
+    }
+}
+
+
+        .plan-visual::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            right: 15%;
+            bottom: 15%;
+            border: 3px solid var(--accent-gold);
+            border-radius: 15px;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                var(--accent-gold) 10px,
+                var(--accent-gold) 12px
+            );
+            opacity: 0.3;
+            animation: planBlueprint 10s ease-in-out infinite;
+        }
+
+        /* Advanced Renders Gallery */
+        .renders {
+            background: var(--primary-black);
+            color: var(--white);
+            position: relative;
+        }
+
+        .renders::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, var(--accent-gold) 0%, transparent 70%);
+            opacity: 0.05;
+        }
+
+        .renders h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 80px;
+            color: var(--white);
+            font-weight: 700;
+            text-shadow: 0 0 30px var(--accent-gold);
+        }
+
+        .renders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .render-card {
+            position: relative;
+            height: 400px;
+            border-radius: 25px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            border: 2px solid var(--glass-border);
+        }
+        
+
+        .render-card:hover {
+            transform: scale(1.03) rotateY(5deg);
+            box-shadow: 0 30px 80px rgba(181, 148, 88, 0.3);
+        }
+
+        .render-1 {
+            background: linear-gradient(135deg, var(--secondary-dark), var(--primary-black));
+        }
+
+        .render-2 {
+            background: linear-gradient(225deg, var(--accent-gold), var(--accent-gold-light));
+        }
+
+        .render-3 {
+            background: linear-gradient(315deg, var(--medium-gray), var(--light-gray));
+        }
+
+        .render-4 {
+            background: linear-gradient(45deg, var(--secondary-dark), var(--accent-gold));
+        }
+
+        .render-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            color: var(--white);
+            padding: 40px 30px 30px;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .render-card:hover .render-overlay {
+            transform: translateY(0);
+        }
+
+        .render-overlay h4 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .render-overlay p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Portal Effects */
+        .render-card::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            right: 20%;
+            bottom: 20%;
+            background: radial-gradient(circle, var(--accent-gold) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: portalPulse 4s ease-in-out infinite;
+            border-radius: 50%;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, var(--secondary-dark), var(--primary-black));
+            color: var(--white);
+            position: relative;
+        }
+
+
+        .contact h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 80px;
+            color: var(--white);
+            font-weight: 700;
+            text-shadow: 0 0 30px var(--accent-gold);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .contact-form {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 50px;
+            border-radius: 25px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            background: var(--glass-bg);
+            color: var(--white);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 20px rgba(181, 148, 88, 0.3);
+        }
+
+        .form-group input::placeholder {
+            color: var(--medium-gray);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+            color: var(--white);
+            border: none;
+            padding: 20px 50px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(181, 148, 88, 0.4);
+        }
+
+        .contact-info {
+            padding: 20px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .contact-info p {
+            margin-bottom: 25px;
+            font-weight: 300;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .contact-info strong {
+            color: var(--accent-gold);
+        }
+
+        .tour-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: transparent;
+            color: var(--accent-gold);
+            border: 2px solid var(--accent-gold);
+            padding: 18px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tour-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .tour-btn:hover::before {
+            left: 0;
+        }
+
+        .tour-btn:hover {
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(181, 148, 88, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-black);
+            padding: 60px 0 40px;
+            text-align: center;
+            border-top: 1px solid var(--secondary-dark);
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .footer p {
+            color: var(--medium-gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--medium-gray);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-links a:hover {
+            color: var(--white);
+            background: var(--accent-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(181, 148, 88, 0.3);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--secondary-dark);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: var(--medium-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 50px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 500px;
+            margin: 20px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        .modal-content h3 {
+            color: var(--primary-black);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .modal-content p {
+            color: var(--secondary-dark);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .modal-close {
+            background: var(--accent-gold);
+            color: var(--white);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(181, 148, 88, 0.3);
+        }
+
+        .img-logo{
+            width: 300px;
+            margin-top: 100px;
+            margin-left: -150px;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes aurora {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(180deg) scale(1.1); }
+        }
+
+        @keyframes cityscape {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.02); }
+        }
+
+        @keyframes heroSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) translateY(-30px) rotate(5deg); }
+        }
+
+        @keyframes conceptGlow {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes buildingLights {
+            0%, 100% { opacity: 0.2; transform: scaleX(1); }
+            50% { opacity: 0.5; transform: scaleX(1.1); }
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes planBlueprint {
+            0%, 100% { opacity: 0.2; transform: scale(1) rotate(0deg); }
+            50% { opacity: 0.4; transform: scale(1.05) rotate(2deg); }
+        }
+
+        @keyframes portalPulse {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50% { opacity: 0.2; transform: scale(1.2); }
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        /* ✅ RESPONSIVO CORRIGIDO */
+@media (max-width: 1024px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .nav-menu.mobile {
+        display: flex;
+    }
+
+    .concept-content,
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .plan-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .room-nav-arrow.prev {
+        left: -80px;
+    }
+
+    .room-nav-arrow.next {
+        right: -80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .room-nav-arrow {
+        display: none;
+    }
+
+    .mobile-room-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+    }
+
+    .room-nav-arrow.mobile {
+        display: flex;
+        position: relative;
+        width: 50px;
+        height: 50px;
+        margin: 10px;
+        left: auto;
+        right: auto;
+        transform: none;
+    }
+
+    .plan-visual {
+        min-height: 300px;
+        max-height: 60vh;
+    }
+
+    .plan-actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .plan-action-btn {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .cta-button {
+        min-width: 100%;
+        font-size: 1rem;
+        padding: 16px 30px;
+    }
+}
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 1s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Scale animation */
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s ease;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        /* Setas de Navegação Grandes */
+.room-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    border: none;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    z-index: 10;
+    box-shadow: 0 15px 40px rgba(181, 148, 88, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.room-nav-arrow:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 20px 50px rgba(181, 148, 88, 0.4);
+}
+
+.room-nav-arrow.prev {
+    left: -120px;
+}
+
+.room-nav-arrow.next {
+    right: -120px;
+}
+
+/* Botões Internos */
+/* Botões de Ação mais bonitos */
+.plan-actions {
+    display: flex;
+    gap: 20px;                          /* ✅ Mais espaço entre botões */
+    margin-top: 60px;
+    flex-wrap: wrap;                    /* ✅ Quebra linha se necessário */
+}
+
+.plan-action-btn {
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    color: var(--white);
+    border: none;
+    padding: 16px 30px;                 /* ✅ Padding mais equilibrado */
+    border-radius: 30px;                /* ✅ Mais arredondado */
+    font-size: 1rem;                    /* ✅ Fonte um pouco maior */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s ease;         /* ✅ Transição mais suave */
+    display: flex;
+    align-items: center;
+    justify-content: center;            /* ✅ Centraliza conteúdo */
+    gap: 10px;                          /* ✅ Espaço entre ícone e texto */
+    min-width: 180px;                   /* ✅ Largura mínima consistente */
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(181, 148, 88, 0.2);  /* ✅ Sombra sutil */
+}
+
+/* Efeito de brilho no hover */
+.plan-action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.plan-action-btn:hover::before {
+    left: 100%;
+}
+
+.plan-action-btn:hover {
+    transform: translateY(-3px);       /* ✅ Efeito de elevação */
+    box-shadow: 0 8px 25px rgba(181, 148, 88, 0.4);
+    background: linear-gradient(45deg, var(--accent-gold-light), var(--accent-gold));
+}
+
+/* Botão secundário mais elegante */
+.plan-action-btn.secondary {
+    background: rgba(181, 148, 88, 0.1);  /* ✅ Fundo translúcido */
+    color: var(--accent-gold);
+    border: 2px solid var(--accent-gold);
+    backdrop-filter: blur(10px);           /* ✅ Efeito de vidro */
+}
+
+.plan-action-btn.secondary:hover {
+    background: var(--accent-gold);
+    color: var(--white);
+    border-color: var(--accent-gold-light);
+    transform: translateY(-3px);
+}
+
+/* Responsivo para botões */
+@media (max-width: 768px) {
+    .plan-actions {
+        flex-direction: column;            /* ✅ Empilha no mobile */
+        gap: 15px;
+    }
+    
+    .plan-action-btn {
+        min-width: 100%;                   /* ✅ Largura total no mobile */
+        justify-content: center;
+    }
+}
+
+/* Setinhas para navegar fotos do mesmo cômodo */
+.image-nav-arrow {
+    position: absolute;
+    bottom: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.plan-visual:hover .image-nav-arrow {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.image-nav-arrow:hover {
+    background: var(--accent-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(181, 148, 88, 0.4);
+}
+
+.image-nav-arrow.prev-image {
+    left: 20px;
+}
+
+.image-nav-arrow.next-image {
+    right: 70px;
+}
+
+/* Contador de fotos */
+.photo-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--white);
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 5;
+}
+
+.plan-visual:hover .photo-counter {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2C2C2C;
+}
+
+.concept-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+    display: block;
+}
+.render-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.render-overlay {
+    z-index: 2; /* Fica por cima da imagem */
+}
+
+/* ✅ IMAGENS SEÇÃO PLANTAS - MOBILE RESPONSIVO */
+@media (max-width: 768px) {
+    .plan-visual {
+        min-height: 350px;           /* ✅ Altura mínima maior */
+        max-height: 50vh;            /* ✅ Máximo 50% da tela */
+        border-radius: 15px;         /* ✅ Bordas mais suaves */
+        overflow: hidden;            /* ✅ Garante corte limpo */
+        margin: 0 auto;              /* ✅ Centraliza */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);  /* ✅ Sombra bonita */
+    }
+
+    .room-image {
+        width: 100%;                 /* ✅ Largura total */
+        height: 100%;                /* ✅ Altura total */
+        object-fit: cover;           /* ✅ Cobre sem distorcer */
+        object-position: center;     /* ✅ Centraliza a imagem */
+        border-radius: 15px;         /* ✅ Bordas arredondadas */
+    }
+
+    .room-image-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;            /* ✅ Esconde partes que saem */
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .plan-visual {
+        min-height: 300px;           /* ✅ Menor no celular */
+        max-height: 45vh;
+        margin: 10px auto;           /* ✅ Margem lateral */
+    }
+
+    .plan-info h3 {
+        font-size: 1.8rem;           /* ✅ Título menor */
+        text-align: center;          /* ✅ Centralizado */
+        margin-bottom: 20px;
+    }
+
+    .plan-description {
+        font-size: 1.1rem;           /* ✅ Texto menor */
+        line-height: 1.6;
+        text-align: center;          /* ✅ Centralizado */
+        margin-bottom: 30px;
+    }
+}
+/* ✅ EFEITOS ESPECIAIS MOBILE */
+@media (max-width: 768px) {
+    /* Gradiente sutil sobre as imagens */
+    .plan-visual::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            45deg, 
+            rgba(181, 148, 88, 0.1) 0%, 
+            transparent 50%
+        );
+        border-radius: 15px;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Contador de fotos mais bonito */
+    .photo-counter {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(181, 148, 88, 0.3);
+    }
+
+    /* Zoom indicator mais discreto */
+    .zoom-indicator {
+        display: none;  /* ✅ Esconder zoom no mobile */
+    }
+
+    /* Setinhas pequenas mais bonitas */
+    .image-nav-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+        background: rgba(181, 148, 88, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .image-nav-arrow.prev-image {
+        left: 15px;
+    }
+
+    .image-nav-arrow.next-image {
+        right: 60px;  /* ✅ Ajustar para não sobrepor contador */
+    }
+}
+/* ========================================
+   RESPONSIVO COMPLETO - TODAS AS SEÇÕES
+======================================== */
+
+/* ===== SETAS DE NAVEGAÇÃO ===== */
+.room-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    border: none;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    z-index: 10;
+    box-shadow: 0 15px 40px rgba(181, 148, 88, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.room-nav-arrow:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 20px 50px rgba(181, 148, 88, 0.4);
+}
+
+.room-nav-arrow.prev {
+    left: -120px;
+}
+
+.room-nav-arrow.next {
+    right: -120px;
+}
+
+/* NAVEGAÇÃO MOBILE - ESCONDIDA POR PADRÃO */
+.mobile-room-nav {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(181, 148, 88, 0.1);
+    border-radius: 25px;
+    width: 100%;
+}
+
+.room-nav-arrow.mobile {
+    display: none;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    left: auto;
+    right: auto;
+    transform: none;
+    font-size: 1.2rem;
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    border: none;
+    border-radius: 50%;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.room-nav-arrow.mobile:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(181, 148, 88, 0.4);
+}
+
+/* ===== SEÇÃO DE PLANTAS - RESPONSIVA ===== */
+.floor-plans {
+    width: 100%;
+    overflow-x: hidden;
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+    position: relative;
+}
+
+.floor-plans .container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.floor-plans h2 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    text-align: center;
+    margin-bottom: 60px;
+    color: var(--primary-black);
+    font-weight: 700;
+}
+
+.plan-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    background: var(--white);
+    border-radius: 25px;
+    padding: 60px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--medium-gray);
+}
+
+.plan-visual {
+    width: 100%;
+    height: 450px;
+    background: linear-gradient(135deg, var(--light-gray), var(--medium-gray));
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.room-image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.room-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ========================================
+   RESPONSIVO CORRIGIDO - DESKTOP + MOBILE
+======================================== */
+
+/* ===== DESKTOP PADRÃO (mantém original) ===== */
+.room-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    border: none;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    z-index: 10;
+    box-shadow: 0 15px 40px rgba(181, 148, 88, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.room-nav-arrow:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 20px 50px rgba(181, 148, 88, 0.4);
+}
+
+.room-nav-arrow.prev {
+    left: -120px;
+}
+
+.room-nav-arrow.next {
+    right: -120px;
+}
+
+/* NAVEGAÇÃO MOBILE - ESCONDIDA POR PADRÃO */
+.mobile-room-nav {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(181, 148, 88, 0.1);
+    border-radius: 25px;
+    width: 100%;
+}
+
+.room-nav-arrow.mobile {
+    display: none;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    left: auto;
+    right: auto;
+    transform: none;
+    font-size: 1.2rem;
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    border: none;
+    border-radius: 50%;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.room-nav-arrow.mobile:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(181, 148, 88, 0.4);
+}
+
+/* ===== DESKTOP - SEÇÃO DE PLANTAS ORIGINAL ===== */
+.floor-plans {
+    width: 100%;
+    overflow-x: hidden;
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+    position: relative;
+}
+
+.floor-plans .container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 50px;
+}
+
+.floor-plans h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    text-align: center;
+    margin-bottom: 80px;
+    color: var(--primary-black);
+    font-weight: 700;
+}
+
+.plan-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    background: var(--white);
+    border-radius: 25px;
+    padding: 60px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--medium-gray);
+}
+
+.plan-visual {
+    width: 100%;
+    height: 450px;
+    background: linear-gradient(135deg, var(--light-gray), var(--medium-gray));
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.room-image-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.room-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ===== TABLET (1024px) ===== */
+@media (max-width: 1024px) {
+    /* MENU HAMBURGER */
+    .menu-toggle {
+        display: flex;
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .nav-menu.mobile {
+        display: flex;
+    }
+
+    /* HERO SECTION */
+    .hero-content {
+        padding: 0 30px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.8rem, 6vw, 5rem);
+    }
+
+    .cta-group {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .cta-button {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+
+    /* CONCEPT SECTION */
+    .concept-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        text-align: center;
+    }
+
+    .concept-visual {
+        height: 400px;
+        order: -1;
+    }
+
+    /* AMENITIES SECTION */
+    .amenities-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    /* FLOOR PLANS */
+    .plan-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 40px;
+    }
+
+    .room-nav-arrow.prev {
+        left: -60px;
+    }
+
+    .room-nav-arrow.next {
+        right: -60px;
+    }
+
+    /* RENDERS GALLERY */
+    .renders-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .render-card {
+        height: 350px;
+    }
+
+    /* CONTACT SECTION */
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+}
+
+/* ===== MOBILE (768px) ===== */
+@media (max-width: 768px) {
+    /* BODY GERAL */
+    body {
+        overflow-x: hidden !important;
+    }
+
+    /* NAVEGAÇÃO */
+    .nav {
+        padding: 15px 20px;
+    }
+
+    .nav.scrolled {
+        padding: 10px 20px;
+    }
+
+    /* HERO SECTION */
+    .hero-content {
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .hero .subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .cta-group {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .cta-button {
+        width: 100%;
+        max-width: none;
+        padding: 18px 25px;
+        font-size: 1rem;
+    }
+
+    /* SECTIONS GERAIS */
+    .section {
+        padding: 60px 0;
+    }
+
+    .container {
+        padding: 0 20px;
+    }
+
+    /* CONCEPT SECTION */
+    .concept-content {
+        gap: 40px;
+        text-align: center;
+    }
+
+    .concept h2 {
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+    }
+
+    .concept p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 30px;
+    }
+
+    .concept-features {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .concept-visual {
+        height: 300px;
+        order: -1;
+    }
+
+    /* AMENITIES SECTION */
+    .amenities h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        line-height: 1.3;
+    }
+
+    .amenities-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .amenity-card {
+        min-height: 250px;
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .amenity-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+
+    .amenity-card p {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    /* FLOOR PLANS - MOBILE PERFEITO */
+    .floor-plans {
+        padding: 60px 0;
+    }
+
+    .floor-plans .container {
+        padding: 0 15px;
+        width: 100%;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .floor-plans h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+
+    .plan-content {
+        grid-template-columns: 1fr !important;
+        gap: 30px;
+        padding: 25px 15px;
+        width: calc(100% - 20px);
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 20px;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .plan-info {
+        order: 2;
+        width: 100%;
+        text-align: center;
+    }
+
+    .plan-info h3 {
+        font-size: 1.8rem !important;
+        text-align: center;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .plan-info h3::after {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    .plan-description {
+        font-size: 1rem !important;
+        text-align: center;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        width: 100%;
+        max-width: none;
+    }
+
+    .plan-visual {
+        order: 1 !important;
+        width: 100% !important;
+        height: 350px !important;
+        min-height: 350px !important;
+        margin: 0 auto;
+        border-radius: 15px;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .room-image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        border-radius: 15px;
+        max-width: none !important;
+        max-height: none !important;
+    }
+
+    .room-image-container {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 15px;
+        overflow: hidden !important;
+    }
+
+    /* ESCONDER SETAS GRANDES / MOSTRAR MOBILE */
+    .room-nav-arrow:not(.mobile) {
+        display: none !important;
+    }
+
+    .mobile-room-nav {
+        display: flex !important;
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 20px;
+        background: rgba(181, 148, 88, 0.1);
+    }
+
+    .room-nav-arrow.mobile {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* BOTÕES DE AÇÃO */
+    .plan-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .plan-action-btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        padding: 15px 25px;
+        font-size: 0.95rem;
+    }
+
+    .plan-info .cta-button {
+        display: block;
+        text-align: center;
+        width: 100%;
+        max-width: 280px;
+        margin: 30px auto 0 auto !important;
+        padding: 16px 25px;
+        font-size: 0.95rem;
+    }
+
+    /* RENDERS GALLERY */
+    .renders h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        line-height: 1.3;
+    }
+
+    .renders-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .render-card {
+        height: 300px;
+        border-radius: 20px;
+    }
+
+    .render-overlay h4 {
+        font-size: 1.2rem;
+    }
+
+    .render-overlay p {
+        font-size: 0.9rem;
+    }
+
+    /* CONTACT SECTION */
+    .contact h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        line-height: 1.3;
+    }
+
+    .contact-content {
+        gap: 40px;
+    }
+
+    .contact-form {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group input {
+        padding: 15px;
+        font-size: 1rem;
+        border-radius: 12px;
+    }
+
+    .submit-btn {
+        padding: 16px 30px;
+        font-size: 1.1rem;
+        border-radius: 25px;
+    }
+
+    .contact-info {
+        padding: 20px 10px;
+    }
+
+    .contact-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+
+    .contact-info p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .tour-btn {
+        padding: 15px 25px;
+        font-size: 1rem;
+        margin-top: 20px;
+    }
+
+    /* FOOTER */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* MELHORAR VISUALIZAÇÃO DAS IMAGENS MOBILE */
+    .plan-visual::before {
+        display: none !important;
+    }
+
+    /* CONTADOR DE FOTOS MAIS VISÍVEL */
+    .photo-counter {
+        background: rgba(0, 0, 0, 0.8) !important;
+        padding: 8px 16px !important;
+        border-radius: 20px !important;
+        font-size: 0.9rem !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(181, 148, 88, 0.3);
+    }
+
+    /* SETINHAS PEQUENAS */
+    .image-nav-arrow {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 1rem;
+        background: rgba(181, 148, 88, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .image-nav-arrow.prev-image {
+        left: 15px !important;
+    }
+
+    .image-nav-arrow.next-image {
+        right: 60px !important;
+    }
+
+    /* ZOOM INDICATOR ESCONDIDO NO MOBILE */
+    .zoom-indicator {
+        display: none !important;
+    }
+}
+
+/* ===== MOBILE PEQUENO (480px) ===== */
+@media (max-width: 480px) {
+    /* NAVEGAÇÃO */
+    .nav {
+        padding: 12px 15px;
+    }
+
+    /* HERO */
+    .hero-content {
+        padding: 0 15px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .hero .subtitle {
+        font-size: 1.1rem;
+    }
+
+    /* SECTIONS */
+    .container {
+        padding: 0 15px;
+    }
+
+    /* CONCEPT */
+    .concept h2 {
+        font-size: 1.9rem;
+    }
+
+    .concept p {
+        font-size: 1rem;
+    }
+
+    .concept-visual {
+        height: 250px;
+    }
+
+    /* AMENITIES */
+    .amenities h2 {
+        font-size: 1.8rem;
+    }
+
+    .amenity-card {
+        min-height: 220px;
+        padding: 25px 15px;
+    }
+
+    /* FLOOR PLANS */
+    .floor-plans .container {
+        padding: 0 10px;
+    }
+
+    .plan-content {
+        padding: 20px 10px;
+        width: calc(100% - 10px);
+    }
+
+    .plan-visual {
+        height: 300px !important;
+        min-height: 300px !important;
+    }
+
+    .plan-info h3 {
+        font-size: 1.6rem !important;
+    }
+
+    .plan-description {
+        font-size: 0.95rem !important;
+    }
+
+    .mobile-room-nav {
+        padding: 12px;
+        gap: 15px;
+    }
+
+    .room-nav-arrow.mobile {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 1.1rem;
+    }
+
+    /* RENDERS */
+    .renders h2 {
+        font-size: 1.8rem;
+    }
+
+    .render-card {
+        height: 280px;
+    }
+
+    /* CONTACT */
+    .contact h2 {
+        font-size: 1.8rem;
+    }
+
+    .contact-form {
+        padding: 25px 15px;
+    }
+
+    .contact-info {
+        padding: 15px 5px;
+    }
+}
+
+/* ===== MOBILE (768px) ===== */
+@media (max-width: 768px) {
+    /* BODY GERAL */
+    body {
+        overflow-x: hidden !important;
+    }
+
+    /* NAVEGAÇÃO */
+    .nav {
+        padding: 15px 20px;
+    }
+
+    .nav.scrolled {
+        padding: 10px 20px;
+    }
+
+    /* HERO SECTION */
+    .hero-content {
+        padding: 0 20px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .hero .subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+
+    .cta-group {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .cta-button {
+        width: 100%;
+        max-width: none;
+        padding: 18px 25px;
+        font-size: 1rem;
+    }
+
+    /* SECTIONS GERAIS */
+    .section {
+        padding: 60px 0;
+    }
+
+    .container {
+        padding: 0 20px;
+    }
+
+    /* CONCEPT SECTION */
+    .concept-content {
+        gap: 40px;
+        text-align: center;
+    }
+
+    .concept h2 {
+        font-size: 2.2rem;
+        margin-bottom: 30px;
+    }
+
+    .concept p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 30px;
+    }
+
+    .concept-features {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .concept-visual {
+        height: 300px;
+        order: -1;
+    }
+
+    /* AMENITIES SECTION */
+    .amenities h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        line-height: 1.3;
+    }
+
+    .amenities-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .amenity-card {
+        min-height: 250px;
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .amenity-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+
+    .amenity-card p {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    /* FLOOR PLANS - MOBILE */
+    .floor-plans {
+        padding: 60px 0;
+    }
+
+    .floor-plans .container {
+        padding: 0 15px;
+        width: 100%;
+    }
+
+    .floor-plans h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+
+    .plan-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 25px 15px;
+        width: calc(100% - 20px);
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 20px;
+    }
+
+    .plan-info {
+        order: 2;
+        width: 100%;
+        text-align: center;
+    }
+
+    .plan-info h3 {
+        font-size: 1.8rem !important;
+        text-align: center;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .plan-info h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .plan-description {
+        font-size: 1rem !important;
+        text-align: center;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        width: 100%;
+        max-width: none;
+    }
+
+    .plan-visual {
+        order: 1;
+        width: 100%;
+        height: 350px;
+        min-height: 350px;
+        margin: 0 auto;
+        border-radius: 15px;
+    }
+
+    .room-image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 15px;
+    }
+
+    .room-image-container {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 15px;
+    }
+
+    /* ESCONDER SETAS GRANDES / MOSTRAR MOBILE */
+    .room-nav-arrow:not(.mobile) {
+        display: none !important;
+    }
+
+    .mobile-room-nav {
+        display: flex !important;
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 20px;
+        background: rgba(181, 148, 88, 0.1);
+    }
+
+    .room-nav-arrow.mobile {
+        display: flex !important;
+    }
+
+    /* BOTÕES DE AÇÃO */
+    .plan-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .plan-action-btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        padding: 15px 25px;
+        font-size: 0.95rem;
+    }
+
+    .plan-info .cta-button {
+        display: block;
+        text-align: center;
+        width: 100%;
+        max-width: 280px;
+        margin: 30px auto 0 auto !important;
+        padding: 16px 25px;
+        font-size: 0.95rem;
+    }
+
+    /* RENDERS GALLERY */
+    .renders h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        line-height: 1.3;
+    }
+
+    .renders-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .render-card {
+        height: 300px;
+        border-radius: 20px;
+    }
+
+    .render-overlay h4 {
+        font-size: 1.2rem;
+    }
+
+    .render-overlay p {
+        font-size: 0.9rem;
+    }
+
+    /* CONTACT SECTION */
+    .contact h2 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+        line-height: 1.3;
+    }
+
+    .contact-content {
+        gap: 40px;
+    }
+
+    .contact-form {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group input {
+        padding: 15px;
+        font-size: 1rem;
+        border-radius: 12px;
+    }
+
+    .submit-btn {
+        padding: 16px 30px;
+        font-size: 1.1rem;
+        border-radius: 25px;
+    }
+
+    .contact-info {
+        padding: 20px 10px;
+    }
+
+    .contact-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+
+    .contact-info p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .tour-btn {
+        padding: 15px 25px;
+        font-size: 1rem;
+        margin-top: 20px;
+    }
+
+    /* FOOTER */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/* ===== MOBILE PEQUENO (480px) ===== */
+@media (max-width: 480px) {
+    /* NAVEGAÇÃO */
+    .nav {
+        padding: 12px 15px;
+    }
+
+    /* HERO */
+    .hero-content {
+        padding: 0 15px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .hero .subtitle {
+        font-size: 1.1rem;
+    }
+
+    /* SECTIONS */
+    .container {
+        padding: 0 15px;
+    }
+
+    /* CONCEPT */
+    .concept h2 {
+        font-size: 1.9rem;
+    }
+
+    .concept p {
+        font-size: 1rem;
+    }
+
+    .concept-visual {
+        height: 250px;
+    }
+
+    /* AMENITIES */
+    .amenities h2 {
+        font-size: 1.8rem;
+    }
+
+    .amenity-card {
+        min-height: 220px;
+        padding: 25px 15px;
+    }
+
+    /* FLOOR PLANS */
+    .floor-plans .container {
+        padding: 0 10px;
+    }
+
+    .plan-content {
+        padding: 20px 10px;
+        width: calc(100% - 10px);
+    }
+
+    .plan-visual {
+        height: 300px;
+        min-height: 300px;
+    }
+
+    .plan-info h3 {
+        font-size: 1.6rem !important;
+    }
+
+    .plan-description {
+        font-size: 0.95rem !important;
+    }
+
+    .mobile-room-nav {
+        padding: 12px;
+        gap: 15px;
+    }
+
+    .room-nav-arrow.mobile {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 1.1rem;
+    }
+
+    /* RENDERS */
+    .renders h2 {
+        font-size: 1.8rem;
+    }
+
+    .render-card {
+        height: 280px;
+    }
+
+    /* CONTACT */
+    .contact h2 {
+        font-size: 1.8rem;
+    }
+
+    .contact-form {
+        padding: 25px 15px;
+    }
+
+    .contact-info {
+        padding: 15px 5px;
+    }
+}
+
+/* ===== CORREÇÕES ESPECÍFICAS ===== */
+
+/* Garantir centralização total */
+@media (max-width: 768px) {
+    .floor-plans {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .floor-plans .container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .plan-content {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        transform: none !important;
+    }
+
+    /* Melhorar visualização das imagens */
+    .plan-visual::before {
+        display: none;
+    }
+
+    /* Contador de fotos mais visível */
+    .photo-counter {
+        background: rgba(0, 0, 0, 0.8) !important;
+        padding: 8px 16px !important;
+        border-radius: 20px !important;
+        font-size: 0.9rem !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(181, 148, 88, 0.3);
+    }
+
+    /* Setinhas pequenas */
+    .image-nav-arrow {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 1rem;
+        background: rgba(181, 148, 88, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .image-nav-arrow.prev-image {
+        left: 15px !important;
+    }
+
+    .image-nav-arrow.next-image {
+        right: 60px !important;
+    }
+
+    /* Zoom indicator escondido no mobile */
+    .zoom-indicator {
+        display: none !important;
+    }
+}
+
+/* ✅ CORREÇÃO DESKTOP - IMAGENS PREENCHEM 100% */
+@media (min-width: 769px) {
+    .room-image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        border-radius: 20px;
+        max-width: none !important;
+        max-height: none !important;
+    }
+    
+    .room-image-container {
+        width: 100% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        border-radius: 20px;
+    }
+    
+    .plan-visual {
+        width: 100%;
+        height: 500px !important;
+        min-height: 500px !important;
+        background: transparent !important;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    
+    /* Remove fundo listrado */
+    .plan-visual::before {
+        display: none !important;
+    }
+}
+/* ✅ ESCONDER ZOOM */
+.zoom-indicator {
+    display: none !important;
+}
+
+/* ✅ MODAL DA PLANTA 3D */
+.plant-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    animation: modalFadeIn 0.3s ease;
+}
+
+.plant-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.plant-modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    background: var(--white);
+    border-radius: 25px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: modalSlideIn 0.3s ease;
+}
+
+.plant-modal-header {
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    color: var(--white);
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.plant-modal-title {
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.plant-modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.plant-modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.plant-modal-body {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.plant-image-container {
+    width: 100%;
+    height: 500px;
+    background: var(--light-gray);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.plant-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.plant-placeholder {
+    text-align: center;
+    color: var(--secondary-dark);
+}
+
+.plant-placeholder-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.plant-placeholder h4 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--primary-black);
+}
+
+.plant-placeholder p {
+    color: var(--secondary-dark);
+}
+
+/* RESPONSIVO MOBILE */
+@media (max-width: 768px) {
+    .plant-modal-container {
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .plant-modal-header {
+        padding: 20px;
+    }
+    
+    .plant-modal-title {
+        font-size: 1.4rem;
+    }
+    
+    .plant-modal-body {
+        padding: 20px;
+    }
+    
+    .plant-image-container {
+        height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .plant-modal-container {
+        width: 98%;
+    }
+    
+    .plant-modal-header {
+        padding: 15px;
+    }
+    
+    .plant-modal-body {
+        padding: 15px;
+    }
+    
+    .plant-image-container {
+        height: 300px;
+    }
+}
+
+/* 🚨 ELIMINAR QUALQUER CURSOR PERSONALIZADO */
+* {
+    cursor: auto !important;
+}
+
+html {
+    cursor: default !important;
+}
+
+body {
+    cursor: default !important;
+}
+
+a, button, .cta-button, .plan-action-btn, .nav-menu a {
+    cursor: pointer !important;
+}
+
+/* REMOVER CURSOR NONE */
+*:not(input):not(textarea) {
+    cursor: revert !important;
+}
+
+/* GARANTIR QUE NÃO TENHA CURSOR NONE */
+html, body, div, span, section, nav, header, footer, main, article {
+    cursor: default !important;
+}
+
+@media (max-width: 768px) {
+    .concept-visual {
+        height: 350px;
+    }
+    
+    .video-container {
+        border-radius: 15px;
+    }
+    
+    .concept-video {
+        border-radius: 15px;
+        object-fit: cover;
+    }
+}
+
+/* ========================================
+   SEÇÃO DE CONTATO CENTRALIZADA E RESPONSIVA
+======================================== */
+
+.contact-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-whatsapp {
+    background: linear-gradient(135deg, 
+        rgba(134, 153, 141, 0.1) 0%, 
+        rgba(0, 0, 0, 0.05) 100%);
+    border: 1px solid rgba(153, 135, 55, 0.2);
+    padding: 50px;
+    border-radius: 25px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.whatsapp-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.whatsapp-header h3 {
+    font-size: 2rem;
+    color: var(--white);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.whatsapp-header p {
+    color: var(--medium-gray);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.contact-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.whatsapp-btn, .instagram-btn, .email-btn {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 25px;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Botão WhatsApp */
+.whatsapp-btn {
+    background: linear-gradient(45deg, #25D366, #128C7E);
+    color: var(--white);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.whatsapp-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+    background: linear-gradient(45deg, #128C7E, #25D366);
+}
+
+/* Botão Instagram */
+.instagram-btn {
+    background: linear-gradient(45deg, #E4405F, #833AB4, #C13584);
+    color: var(--white);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.instagram-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(228, 64, 95, 0.4);
+    background: linear-gradient(45deg, #833AB4, #E4405F, #F77737);
+}
+
+/* Botão Email */
+.email-btn {
+    background: linear-gradient(45deg, var(--accent-gold), var(--accent-gold-light));
+    color: var(--white);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.email-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(181, 148, 88, 0.4);
+    background: linear-gradient(45deg, var(--accent-gold-light), var(--accent-gold));
+}
+
+/* Ícones dos botões */
+.whatsapp-icon, .instagram-icon, .email-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.whatsapp-icon svg, 
+.instagram-icon svg, 
+.email-icon svg {
+    width: 30px;
+    height: 30px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+/* Efeitos hover nos ícones */
+.whatsapp-btn:hover .whatsapp-icon {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.instagram-btn:hover .instagram-icon {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.email-btn:hover .email-icon {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Animação de pulso para WhatsApp */
+.whatsapp-icon {
+    animation: whatsappPulse 2s ease-in-out infinite;
+}
+
+@keyframes whatsappPulse {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); 
+    }
+    50% { 
+        box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); 
+    }
+}
+
+/* Conteúdo dos botões */
+.whatsapp-content, .instagram-content, .email-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-grow: 1;
+}
+
+.whatsapp-content strong, 
+.instagram-content strong, 
+.email-content strong {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.whatsapp-content span, 
+.instagram-content span, 
+.email-content span {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Features */
+.contact-features {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.feature:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(181, 148, 88, 0.2);
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.feature div strong {
+    color: var(--white);
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.feature div small {
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* ========================================
+   RESPONSIVO - TABLET E MOBILE
+======================================== */
+
+/* TABLET (1024px) */
+@media (max-width: 1024px) {
+    .contact-content {
+        flex-direction: column;
+        gap: 50px;
+        align-items: center;
+    }
+    
+    .contact-whatsapp {
+        max-width: 700px;
+    }
+}
+
+/* MOBILE (768px) */
+@media (max-width: 768px) {
+    .contact-content {
+        gap: 40px;
+        padding: 0 20px;
+    }
+    
+    .contact-whatsapp {
+        padding: 30px 20px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    .whatsapp-header h3 {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+    
+    .whatsapp-header p {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+    
+    .contact-buttons {
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+    
+    .whatsapp-btn, .instagram-btn, .email-btn {
+        padding: 18px 20px;
+        gap: 15px;
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .whatsapp-icon, .instagram-icon, .email-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .whatsapp-icon svg, 
+    .instagram-icon svg, 
+    .email-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .whatsapp-content strong, 
+    .instagram-content strong, 
+    .email-content strong {
+        font-size: 1.2rem;
+    }
+    
+    .whatsapp-content span, 
+    .instagram-content span, 
+    .email-content span {
+        font-size: 0.95rem;
+    }
+    
+    .contact-features {
+        gap: 12px;
+        padding-top: 25px;
+    }
+    
+    .feature {
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .feature-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1.3rem;
+    }
+    
+    .feature div strong {
+        font-size: 0.95rem;
+    }
+    
+    .feature div small {
+        font-size: 0.85rem;
+    }
+}
+
+/* MOBILE PEQUENO (480px) */
+@media (max-width: 480px) {
+    .contact-whatsapp {
+        padding: 25px 15px;
+    }
+    
+    .whatsapp-header h3 {
+        font-size: 1.6rem;
+    }
+    
+    .whatsapp-header p {
+        font-size: 0.95rem;
+    }
+    
+    .whatsapp-btn, .instagram-btn, .email-btn {
+        padding: 15px 18px;
+        gap: 12px;
+        border-radius: 15px;
+    }
+    
+    .whatsapp-icon, .instagram-icon, .email-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+    }
+    
+    .whatsapp-icon svg, 
+    .instagram-icon svg, 
+    .email-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .whatsapp-content strong, 
+    .instagram-content strong, 
+    .email-content strong {
+        font-size: 1.1rem;
+    }
+    
+    .whatsapp-content span, 
+    .instagram-content span, 
+    .email-content span {
+        font-size: 0.9rem;
+    }
+}
+/* ========================================
+   ÍCONES SVG MELHORADOS
+======================================== */
+
+.whatsapp-icon, .instagram-icon, .email-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.whatsapp-icon svg, 
+.instagram-icon svg, 
+.email-icon svg {
+    width: 30px;
+    height: 30px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+/* Efeitos hover nos ícones */
+.whatsapp-btn:hover .whatsapp-icon {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.instagram-btn:hover .instagram-icon {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.email-btn:hover .email-icon {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Animação de pulso para WhatsApp */
+.whatsapp-icon {
+    animation: whatsappPulse 2s ease-in-out infinite;
+}
+
+@keyframes whatsappPulse {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); 
+    }
+    50% { 
+        box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); 
+    }
+}
+
+/* Responsivo para mobile */
+@media (max-width: 768px) {
+    .whatsapp-icon, .instagram-icon, .email-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .whatsapp-icon svg, 
+    .instagram-icon svg, 
+    .email-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+        
+    </style>
+</head>
+<body>
+    <!-- Modal da Planta 3D -->
+<div class="plant-modal" id="plant-modal">
+    <div class="plant-modal-overlay"></div>
+    <div class="plant-modal-container">
+        <div class="plant-modal-content">
+            <div class="plant-modal-header">
+                <h3 class="plant-modal-title serif-font" id="plant-modal-title">Planta Baixa - Home</h3>
+                <button class="plant-modal-close" id="plant-modal-close">×</button>
+            </div>
+            
+            <div class="plant-modal-body">
+                <div class="plant-image-container">
+                    <!-- ✅ COLOQUE SUA IMAGEM DA PLANTA AQUI -->
+                    <img src="" alt="Planta Baixa" class="plant-image" id="plant-image">
+                    
+                    <!-- Placeholder enquanto não tem imagem -->
+                    <div class="plant-placeholder">
+                        <div class="plant-placeholder-icon"></div>
+                        <h4>Planta Baixa</h4>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loader"></div>
+    </div>
+
+   
+
+    <!-- Floating Particles -->
+    <div class="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="#" class="logo serif-font">Residencial Emboabas</a>
+
+            <!-- ✅ ADICIONAR BOTÃO HAMBURGER -->
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#concept">Conceito</a></li>
+                <li><a href="#amenities">Amenidades</a></li>
+                <li><a href="#plans">Plantas</a></li>
+                <li><a href="#renders">Galeria</a></li>
+                <li><a href="#contact" >Contato</a></li>
+                <li><a href="https://b2n-tour360.netlify.app/" target="_blank">Tour 360°</a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg-animation"></div>
+        <div class="hero-content">
+            <h1 class="serif-font">A arquitetura sensorial que conecta o luxo ao essencial</h1>
+            <p class="subtitle">Viva a experiência de morar em um refúgio contemporâneo,
+onde cada detalhe foi projetado para despertar os sentidos.</p>
+            <div class="cta-group">
+                <a href="#contact" class="cta-button">
+                    <span></span> Conhecer o projeto
+                </a>
+                <a href="#plans" class="cta-button cta-secondary">
+                    <span></span> Ver cômodos
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept Section -->
+    <section class="section concept" id="concept">
+        <div class="container">
+            <div class="concept-content">
+                <div class="slide-in-left">
+                    <h2 class="serif-font">Arquitetura que inspira</h2>
+                    <p> O Residencial Emboabas é mais do que uma casa: é uma experiência.
+Projetada com foco em conforto, sofisticação e natureza, essa residência une linhas arquitetônicas
+contemporâneas, materiais naturais e uma paleta quente que acolhe.
+Com ambientes integrados, iluminação sensível e marcenaria sob medida, cada espaço reflete a
+harmonia entre design e bem-estar.
+</p>
+                    <div class="concept-features">
+                        <div class="feature-item">
+                            <div class="feature-icon"></div>
+                            <div>
+                                <strong>Acabamentos de Alto Padrão</strong><br>
+                                <small>Sofisticação em cada elemento, com materiais selecionados e
+execução cuidadosa.</small>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"></div>
+                            <div>
+                                <strong>Materiais Nobres</strong><br>
+                                <small>Revestimentos naturais, texturas refinadas e escolha criteriosa de
+cada componente.</small>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"></div>
+                            <div>
+                                <strong>Funcionalidade Inteligente</strong><br>
+                                <small>Espaços otimizados e soluções que integram praticidade e conforto.</small>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon"></div>
+                            <div>
+                                <strong>Estilo de Vida Exclusivo</strong><br>
+                                <small>Um projeto único, em localização privilegiada e com identidade
+marcante.
+Ideal para quem busca viver com mais qualidade e discrição</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                    <div class="concept-visual slide-in-right">
+                                        <div class="video-container">
+                       <video autoplay muted loop playsinline class="concept-video">
+                            <source src="./video.MP4" type="video/mp4">
+                            <source src="./seu-video.webm" type="video/webm">
+                            Seu navegador não suporta vídeos.
+                        </video>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section class="section amenities" id="amenities">
+        <div class="container">
+            <h2 class="serif-font fade-in">Cada detalhe do Residencial Emboabas foi pensado para
+oferecer sofisticação e conforto:</h2>
+            <div class="amenities-grid">
+               <div class="amenity-card fade-in" style="background-image: url('./INTERNO11.png');">
+    <div class="amenity-icon"></div>
+    <h3>Materiais naturais e duráveis</h3>
+    
+</div>
+
+<div class="amenity-card fade-in" style="background-image: url('./INTERNO14.png');">
+    <div class="amenity-icon"></div>
+    <h3>Iluminação planejada e estratégica</h3>
+ 
+</div>
+
+<div class="amenity-card fade-in" style="background-image: url('./QUARTO1_3.png');">
+    <div class="amenity-icon"></div>
+    <h3>Marcenaria sob medida com acabamento refinado</h3>
+ 
+</div>
+
+<div class="amenity-card fade-in" style="background-image: url('./FACHADA_INTERNA4.png');">
+    <div class="amenity-icon"></div>
+    <h3>Integração harmoniosa entre interior e exterior</h3>
+   
+</div>
+
+<div class="amenity-card fade-in" style="background-image: url('./HOME_3.png');">
+    <div class="amenity-icon"></div>
+    <h3>Projeto arquitetônico com estética contemporânea</h3>
+
+</div>
+
+
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Floor Plans Section -->
+    <section class="section floor-plans" id="plans">
+       <div class="container">
+    <h2 class="serif-font fade-in">Planta Baixa</h2>
+    
+    <div class="plan-content fade-in" id="room-content" style="position: relative;">
+        <!-- Seta Esquerda -->
+        <button class="room-nav-arrow prev" id="prev-room">←</button>
+        
+        <!-- Seta Direita -->
+        <button class="room-nav-arrow next" id="next-room">→</button>
+        
+        <div class="plan-info">
+            <h3 class="serif-font" id="room-title">Sala de Estar</h3>
+            <p class="plan-description" id="room-description">
+                Ambiente integrado com design sofisticado, perfeito para receber amigos e família. Espaço amplo com pé-direito alto, iluminação natural abundante e acabamentos premium que criam uma atmosfera acolhedora e elegante.
+            </p>
+            
+            <!-- Botões de Ação -->
+            <div class="plan-actions">
+                <button class="plan-action-btn" id="view-plan-btn">
+                     Ver Planta
+                </button>
+                <button class="plan-action-btn secondary" id="switch-version-btn">
+                     2° Opção
+                </button>
+            </div>
+            
+            <a href="#contact" class="cta-button" style="margin-top: 150px; display: inline-flex;">
+                <span></span> Solicitar Informações
+            </a>
+        </div>
+        
+        <div class="plan-visual">
+            <div class="room-title-overlay">
+       
+    </div>
+            <div class="room-image-container">
+                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                     alt="Sala de Estar - Foto 1" 
+                     class="room-image active" 
+                     id="room-image">
+            </div>
+            
+            <!-- Setinhas para navegar fotos do mesmo cômodo -->
+            <button class="image-nav-arrow prev-image" id="prev-photo">←</button>
+            <button class="image-nav-arrow next-image" id="next-photo">→</button>
+            
+            <!-- Contador de fotos -->
+            <div class="photo-counter" id="photo-counter">1 / 3</div>
+            
+            <div class="zoom-indicator" id="zoom-indicator"></div>
+        </div>
+    </div>
+    <!-- ✅ NAVEGAÇÃO MOBILE PARA FOTOS -->
+<div class="mobile-room-nav">
+    <button class="room-nav-arrow mobile prev" id="prev-room-mobile">←</button>
+    <span style="color: var(--accent-gold); font-weight: 600; font-size: 0.9rem;" id="room-indicator">Cômodo 1 / 10</span>
+    <button class="room-nav-arrow mobile next" id="next-room-mobile">→</button>
+</div>
+</div>
+    </section>
+
+    <!-- Renders Gallery -->
+    <section class="section renders" id="renders">
+        <div class="container">
+            <h2 class="serif-font fade-in">Detalhes que definem o seu novo lar</h2>
+            <div class="renders-grid">
+                <div class="render-card render-1 fade-in">
+    <img src="./FACHADA_INTERNA2.png" alt="Living Panorâmico" class="render-image">
+    <div class="render-overlay">
+        <h4>Living Panorâmico</h4>
+        <p>Vista deslumbrante através de janelas...</p>
+    </div>
+</div>
+                     <div class="render-card render-2 fade-in">
+    <img src="./QUARTO1_1.png" alt="Living Panorâmico" class="render-image">
+    <div class="render-overlay">
+         <h4>Suíte Master</h4>
+       <p>Reflexos elegantes que ampliam a sensação de espaço, com closet integrado e banheira de imersão com hidromassagem.</p>
+    </div>
+</div>
+                 <div class="render-card render-3 fade-in">
+    <img src="./INTERNO13.png" alt="Living Panorâmico" class="render-image">
+    <div class="render-overlay">
+        <h4>Cozinha Gourmet</h4>
+       <p>Integração perfeita com a área de lazer, equipada com eletrodomésticos Miele e bancada em mármore Carrara.</p>
+    </div>
+</div>
+              <div class="render-card render-4 fade-in">
+    <img src="./QUARTO1_1.png" alt="Living Panorâmico" class="render-image">
+    <div class="render-overlay">
+        <h4>Terraço Privativo</h4>
+        <p>Espaço exclusivo para momentos especiais com churrasqueira gourmet e jardim vertical automatizado.</p>
+    </div>
+</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <h2 class="serif-font fade-in">Pronto para o próximo passo?</h2>
+            <div class="contact-content">
+                <div class="contact-whatsapp fade-in">
+    <div class="whatsapp-header">
+        <h3>Entre em Contato</h3>
+        <p>Fale diretamente conosco e tire todas as suas dúvidas sobre o Residencial Emboabas.</p>
+    </div>
+    
+ <div class="contact-buttons">
+    <!-- Botão WhatsApp Principal -->
+    <a href="https://wa.me/5511999999999?text=Olá! Tenho interesse no Residencial Emboabas e gostaria de mais informações." 
+       class="whatsapp-btn" target="_blank">
+        <div class="whatsapp-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 2.079.53 4.034 1.476 5.709L0 24l6.523-1.464c1.61.855 3.44 1.348 5.494 1.348C18.634 23.883 24 18.517 24 11.896 24 5.275 18.634-.001 12.017-.001zM12.017 2.186c5.421 0 9.81 4.389 9.81 9.81s-4.389 9.81-9.81 9.81c-1.714 0-3.319-.439-4.71-1.21l-.329-.195-3.414.766.766-3.414-.195-.329c-.771-1.391-1.21-2.996-1.21-4.71 0-5.421 4.389-9.81 9.81-9.81zm5.895 11.176c-.291-.146-1.726-.852-1.994-.95-.268-.098-.463-.146-.658.146-.195.293-.756.95-.926 1.146-.171.195-.341.22-.632.073-.291-.146-1.229-.453-2.341-1.445-.865-.772-1.449-1.726-1.619-2.017-.171-.291-.018-.45.128-.594.131-.129.291-.341.437-.512.146-.171.195-.293.293-.488.098-.195.049-.366-.024-.512-.073-.146-.658-1.588-.902-2.176-.238-.573-.479-.496-.658-.506-.171-.01-.366-.012-.561-.012-.195 0-.512.073-.78.366-.268.293-1.024 1.001-1.024 2.442 0 1.441 1.049 2.835 1.195 3.031.146.195 2.056 3.14 4.981 4.404.696.301 1.239.481 1.663.616.698.222 1.334.191 1.838.115.561-.084 1.726-.706 1.969-1.387.244-.682.244-1.268.171-1.387-.073-.122-.268-.195-.56-.342z"/>
+            </svg>
+        </div>
+        <div class="whatsapp-content">
+            <strong>WhatsApp</strong>
+            <span>(11) 99999-9999</span>
+        </div>
+    </a>
+    
+    <!-- Botão Instagram -->
+    <a href="https://instagram.com/residencialemboabas" 
+       class="instagram-btn" target="_blank">
+        <div class="instagram-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+        </div>
+        <div class="instagram-content">
+            <strong>Instagram</strong>
+            <span>@residencialemboabas</span>
+        </div>
+    </a>
+    
+    <!-- Botão Email -->
+    <a href="mailto:vendas@residencialemboabas.com.br" 
+       class="email-btn">
+        <div class="email-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+        </div>
+        <div class="email-content">
+            <strong>E-mail</strong>
+            <span>vendas@residencialemboabas.com.br</span>
+        </div>
+    </a>
+</div>
+                <div class="contact-info fade-in">
+                    <h3>Informações de Contato</h3>
+                    <p><strong>Plantão de Vendas:</strong><br>
+                    Avenida Principal, 1234<br>
+                    Bairro Nobre - Cidade<br>
+                    CEP 01234-567</p>
+                    
+                    <p><strong>Telefone:</strong> (11) 3456-7890<br>
+                    <strong>WhatsApp:</strong> (11) 99999-9999<br>
+                    <strong>E-mail:</strong> arqui@residencialemboabas.com.br</p>
+                    
+                    <p><strong>Horário de Atendimento:</strong><br>
+                    Segunda a Sexta: 9h às 19h<br>
+                    Sábados e Domingos: 9h às 17h<br>
+                    Feriados: Sob agendamento</p>
+                    
+                    <a href="#" class="tour-btn" id="tour-btn">
+                        <span></span> Agendar Visita
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 class="serif-font">Residencial Emboabas</h4>
+                    <p>Redefinindo o conceito de morar bem através da excelência arquitetônica e do design contemporâneo. Cada detalhe pensado para uma experiência única de vida urbana.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Conecte-se Conosco</h4>
+                    <p>Acompanhe nossas novidades e lançamentos exclusivos através das nossas redes sociais.</p>
+                   
+                </div>
+                <div class="footer-section">
+                    <h4>Atendimento</h4>
+                    <p><strong>Central de Vendas:</strong><br>
+                    (11) 3456-7890</p>
+                    <p><strong>WhatsApp:</strong><br>
+                    (11) 99999-9999</p>
+                    <p><strong>E-mail:</strong><br>
+                    contato@luxuryresidences.com.br</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Residencial Emboabas. Todos os direitos reservados.</p>
+                <div class="footer-links">
+                    <a href="#" id="privacy-link">Política de Privacidade</a>
+                    <a href="#" id="terms-link">Termos de Uso</a>
+                    <a href="#" id="cookies-link">Política de Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div class="modal" id="success-modal">
+        <div class="modal-content">
+            <h3>🎉 Mensagem Enviada!</h3>
+            <p>Obrigado pelo seu interesse! Nossa equipe de vendas entrará em contato em breve para apresentar as melhores opções para você.</p>
+            <button class="modal-close" id="modal-close">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+
+     const roomsData = {
+   
+    'cozinha': {
+        title: 'Home',
+        description: '',
+        versions: [
+            './HOME_1.png',
+            './images/versions/cozinha-alternativa.jpg'
+        ],
+        gallery: [
+            './HOME_1.png',
+            './HOME_2.png',
+            './HOME_3.png',
+            './HOME_4.png',
+            './HOME_5.png'
+        ]
+    },
+    
+    'quarto': {
+        title: 'Quarto-1',
+ 
+        versions: [
+            './images/versions/quarto-original.jpg',
+            './images/versions/quarto-alternativa.jpg'
+        ],
+        gallery: [
+            './QUARTO1_1.png',
+            './QUARTO1_2.png',
+            './QUARTO1_3.png',
+            './QUARTO1_4.png',
+            './QUARTO1_5.png',
+            './QUARTO1_6.png',
+            './QUARTO1_7.png',
+            './QUARTO1_8.png'
+        ]
+    },
+    'banheiro': {
+        title: 'Quarto-2',
+        versions: [
+            './images/versions/banheiro-original.jpg',
+            './images/versions/banheiro-alternativa.jpg'
+        ],
+        gallery: [
+            './QUARTO2_1.png',
+            './QUARTO2_2.png',
+            './QUARTO2_3.png',
+            './QUARTO2_4.png',
+            './QUARTO2_5.png',
+            './BANHEIROQUARTO2_1.png',
+            './BANHEIROQUARTO2_2.png',
+        ]
+    },
+    'varanda': {
+        title: 'Interno',
+        versions: [
+            
+           
+        ],
+        gallery: [
+              './INTERNO11.png',
+            './INTERNO12.jpg',
+            './INTERNO13.png',
+            './INTERNO14.png',
+            './INTERNO15.png',
+            './INTERNO16.png',
+            './INTERNO17.png',
+            './INTERNO18.png',
+            './INTERNO19.png',
+            './INTERNO20.png',
+        ]
+    },
+    'escritorio': {
+        title: 'Despensa',
+        versions: [
+              './images/versions/lavanderia-alternativa.jpg'
+            
+
+        ],
+        gallery: [
+             './DESPENSA_1.png',
+            './DESPENSA_2.png',
+            './DESPENSA_3.png',
+            './DESPENSA_4.png',
+        ]
+    },
+    'lavanderia': {
+        title: 'Lavanderia',
+
+        versions: [
+            './images/versions/lavanderia-original.jpg',
+            './images/versions/lavanderia-alternativa.jpg'
+        ],
+        gallery: [
+            './LAVANDERIA_1.png',
+            './LAVANDERIA_2.png',
+            './LAVANDERIA_3.png',
+        ]
+    },
+    'garagem': {
+        title: 'Lavabo',
+      
+        versions: [
+            './images/versions/garagem-original.jpg',
+            './images/versions/garagem-alternativa.jpg'
+        ],
+        gallery: [
+            './LAVABO1.png',
+            './LAVABO_2.png',
+           
+        ]
+    },
+    'piscina': {
+        title: 'Fachada Interna',
+   
+        versions: [
+            './images/versions/piscina-original.jpg',
+            './images/versions/piscina-alternativa.jpg'
+        ],
+        gallery: [
+            './FACHADA_INTERNA1.png',
+            './FACHADA_INTERNA2.png',
+            './FACHADA_INTERNA3.png',
+            './FACHADA_INTERNA4.png',
+            './FACHADA_INTERNA5.png',
+            './FACHADA_INTERNA6.png',
+           
+        ]
+    },
+    'jardim': {
+        title: 'Banheiro Sauna',
+        versions: [
+            './images/versions/jardim-original.jpg',
+            './images/versions/jardim-alternativa.jpg'
+        ],
+        gallery: [
+            './BANHEIRO_SAUNA1.png',
+            './BANHEIRO_SAUNA2.png',
+            './BANHEIRO_SAUNA3.png',
+            './SAUNA.png',
+    
+        ]
+    },
+    'entrada': {
+        title: 'Fachada Externa',
+        versions: [
+            './images/versions/entrada-original.jpg',
+            './images/versions/entrada-alternativa.jpg'
+        ],
+        gallery: [
+            './FACHADA_EXTERNA1.png',
+            './FACHADA_EXTERNA2.png',
+    
+        ]
+    }
+};
+let currentZoom = 1;
+let currentGalleryIndex = 0;  // Para as setinhas (gallery)
+let currentVersionIndex = 0;  // Para "Ver Segunda Opção" (versions)
+let currentRoomIndex = 0;
+let isFlipping = false;
+let currentMode = 'gallery';  // 'gallery' ou 'version'
+const roomKeys = Object.keys(roomsData);
+
+
+
+// 🚨 FUNÇÃO DE EMERGÊNCIA PARA MENU HAMBÚRGUER
+function forceHamburgerMenu() {
+    console.log('🚨 FORÇANDO MENU HAMBÚRGUER...');
+    
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    if (!menuToggle || !navMenu) {
+        console.error('❌ Elementos não encontrados');
+        return;
+    }
+    
+    // REMOVER TODOS OS EVENTOS ANTIGOS
+    const newToggle = menuToggle.cloneNode(true);
+    menuToggle.parentNode.replaceChild(newToggle, menuToggle);
+    
+    // ADICIONAR EVENTO DIRETO
+    newToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('🍔 MENU CLICADO EMERGÊNCIA!');
+        
+        // TOGGLE MANUAL
+        if (this.classList.contains('active')) {
+            this.classList.remove('active');
+            navMenu.classList.remove('mobile', 'show');
+            console.log('📤 Menu fechado');
+        } else {
+            this.classList.add('active');
+            navMenu.classList.add('mobile', 'show');
+            console.log('📥 Menu aberto');
+        }
+    });
+    
+    // ADICIONAR EVENTOS TOUCH TAMBÉM
+    newToggle.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        this.click();
+    });
+    
+    console.log('✅ MENU EMERGÊNCIA CONFIGURADO!');
+}
+
+// 🚨 EXECUTAR IMEDIATAMENTE
+setTimeout(forceHamburgerMenu, 1000);
+setTimeout(forceHamburgerMenu, 3000);
+setTimeout(forceHamburgerMenu, 5000);
+// ✅ ADICIONAR ESTA FUNÇÃO ANTES DO DOMContentLoaded
+// ✅ FUNÇÃO ÚNICA E DEFINITIVA DO MENU
+initializeMobileMenu
+
+// TAMBÉM ADICIONE ESTA FUNÇÃO
+function initializeMobileRoomNav() {
+    const prevMobile = document.getElementById('prev-room-mobile');
+    const nextMobile = document.getElementById('next-room-mobile');
+    
+    if (prevMobile) {
+        prevMobile.addEventListener('click', function() {
+            console.log('📱 Anterior mobile clicado');
+            prevRoom();
+        });
+    }
+    
+    if (nextMobile) {
+        nextMobile.addEventListener('click', function() {
+            console.log('📱 Próximo mobile clicado');
+            nextRoom();
+        });
+    }
+    
+    updateRoomIndicator();
+}
+
+function updateRoomIndicator() {
+    const indicator = document.getElementById('room-indicator');
+    if (indicator) {
+        indicator.textContent = `Cômodo ${currentRoomIndex + 1} / ${roomKeys.length}`;
+    }
+}
+
+       document.addEventListener('DOMContentLoaded', function() {
+    const loadingScreen = document.querySelector('.loading-screen');
+    if (loadingScreen) {
+        loadingScreen.style.display = 'none';
+    }
+    
+    initializeParticles();
+    initializeCustomCursor();
+    initializeAnimations();
+    initializeRoomNavigation();
+    initializeMobileMenu();        // ✅ MENU HAMBURGER
+    initializeMobileRoomNav();     // ✅ NAVEGAÇÃO MOBILE
+});
+
+        // Create floating particles (simplified)
+        function initializeParticles() {
+            try {
+                const particlesContainer = document.querySelector('.particles');
+                if (!particlesContainer) return;
+                
+                const particleCount = 20; // Reduced count
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 10 + 's';
+                    particle.style.animationDuration = (Math.random() * 5 + 10) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            } catch (error) {
+                console.log('Particles initialization skipped');
+            }
+        }
+
+        function initializeCustomCursor() {
+    // ✅ CURSOR DESABILITADO TOTALMENTE
+    const cursor = document.querySelector('.custom-cursor');
+    if (cursor) {
+        cursor.remove(); // Remove do DOM
+    }
+    return; // Sai da função
+}
+        // Smooth scrolling and navigation effects
+        function initializeAnimations() {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    if (href && href.length > 1) {
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Navigation scroll effect
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('.nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Initialize all interactions
+        function initializeInteractions() {
+            initializeTabs();
+            initializeForm();
+            initializeButtons();
+            initializeModal();
+        }
+
+        // Tab functionality for floor plans
+        function initializeTabs() {
+            const tabs = document.querySelectorAll('.tab-button');
+            const planData = {
+                studio: {
+                    title: 'Studio Deluxe | 45m²',
+                    details: ['🛏️ 1 Quarto', '🚿 1 Banheiro', '🚗 1 Vaga', '🌅 Sacada', '❄️ Ar Condicionado', '🍳 Cozinha Integrada'],
+                    description: 'Ambiente integrado com design inteligente, perfeito para quem busca praticidade e elegância. Acabamentos premium e aproveitamento otimizado dos espaços com tecnologia smart home integrada.'
+                },
+                '1suite': {
+                    title: '1 Suíte Premium | 75m²',
+                    details: ['🛏️ 1 Suíte Master', '🚿 2 Banheiros', '🚗 1 Vaga', '🌅 Varanda Gourmet', '❄️ Ar Condicionado', '🍳 Cozinha Americana'],
+                    description: 'Apartamento sofisticado com suíte master ampla, closet integrado e varanda gourmet com churrasqueira. Ideal para casais que valorizam conforto e privacidade.'
+                },
+                '2suite': {
+                    title: '2 Suítes Executivo | 95m²',
+                    details: ['🛏️ 2 Suítes', '🚿 3 Banheiros', '🚗 2 Vagas', '🌅 Terraço Privativo', '❄️ Ar Condicionado', '🍳 Cozinha Gourmet'],
+                    description: 'Planta versátil com duas suítes completas, living amplo e terraço privativo. Perfeito para famílias que buscam espaço e sofisticação em cada ambiente.'
+                },
+                '3suite': {
+                    title: '3 Suítes Penthouse | 130m²',
+                    details: ['🛏️3 Suítes', '🚿 4 Banheiros', '🚗 3 Vagas', '🌅 Terraço 360°', '❄️ Ar Condicionado', '🍳 Cozinha Profissional'],
+                    description: 'O ápice do luxo urbano com três suítes master, terraço com vista 360° da cidade e acabamentos exclusivos. Uma residência para quem exige o melhor da vida.'
+                },
+            
+
+            '4suite': {
+                    title: '4 Suítes Penthouse | 130m²',
+                    details: ['🛏️3 Suítes', '🚿 4 Banheiros', '🚗 3 Vagas', '🌅 Terraço 360°', '❄️ Ar Condicionado', '🍳 Cozinha Profissional'],
+                    description: 'O ápice do luxo urbano com três suítes master, terraço com vista 360° da cidade e acabamentos exclusivos. Uma residência para quem exige o melhor da vida.'
+                }
+            };
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Update content
+                    const planType = this.dataset.plan;
+                    const data = planData[planType];
+                    
+                    if (data) {
+                        const planTitle = document.querySelector('.plan-info h3');
+                        const planDetailsContainer = document.querySelector('.plan-details');
+                        const planDescription = document.querySelector('.plan-description');
+                        
+                        planTitle.textContent = data.title;
+                        planDescription.textContent = data.description;
+                        
+                        // Update details
+                        planDetailsContainer.innerHTML = '';
+                        data.details.forEach(detail => {
+                            const span = document.createElement('span');
+                            span.textContent = detail;
+                            planDetailsContainer.appendChild(span);
+                        });
+
+                        // Add animation effect
+                        const planContent = document.querySelector('.plan-content');
+                        planContent.style.opacity = '0';
+                        planContent.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(() => {
+                            planContent.style.opacity = '1';
+                            planContent.style.transform = 'translateY(0)';
+                        }, 150);
+                    }
+                });
+            });
+        }
+
+        // Form handling with advanced validation
+        function initializeForm() {
+            const form = document.getElementById('contact-form');
+            const modal = document.getElementById('success-modal');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(form);
+                const data = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    interest: formData.get('interest')
+                };
+
+                // Validate form
+                if (validateForm(data)) {
+                    // Show loading state
+                    const submitBtn = form.querySelector('.submit-btn');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<span>⏳</span> Enviando...';
+                    submitBtn.disabled = true;
+
+                    // Simulate API call
+                    setTimeout(() => {
+                        // Reset button
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        
+                        // Clear form
+                        form.reset();
+                        
+                        // Show success modal
+                        modal.classList.add('show');
+                        
+                        // Save lead data (in real app, send to server)
+                        console.log('Lead captured:', data);
+                        
+                        // Track conversion (integrate with analytics)
+                        if (typeof gtag !== 'undefined') {
+                            gtag('event', 'conversion', {
+                                'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL',
+                                'value': 1.0,
+                                'currency': 'BRL'
+                            });
+                        }
+                    }, 2000);
+                }
+            });
+        }
+
+        // Form validation
+        function validateForm(data) {
+            const errors = [];
+
+            if (!data.name || data.name.length < 2) {
+                errors.push('Nome deve ter pelo menos 2 caracteres');
+            }
+
+            if (!data.email || !isValidEmail(data.email)) {
+                errors.push('Email inválido');
+            }
+
+            if (!data.phone || !isValidPhone(data.phone)) {
+                errors.push('Telefone inválido');
+            }
+
+            if (errors.length > 0) {
+                showErrorMessage(errors.join(', '));
+                return false;
+            }
+
+            return true;
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function isValidPhone(phone) {
+            const phoneRegex = /^[\(\)\s\-\+\d]{10,}$/;
+            return phoneRegex.test(phone);
+        }
+
+        function showErrorMessage(message) {
+            // Create temporary error message
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff4757;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                z-index: 10001;
+                animation: slideInRight 0.3s ease;
+            `;
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 4000);
+        }
+
+        // Initialize buttons and their interactions
+        function initializeButtons() {
+            // Tour virtual button
+            document.getElementById('tour-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Add loading animation
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span>⏳</span> Agendando...';
+                this.style.opacity = '0.7';
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.style.opacity = '1';
+                    
+                    // Show visit message
+                    showVisitMessage();
+                }, 1500);
+            });
+
+            // Social media buttons
+            document.querySelectorAll('[data-social]').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const social = this.dataset.social;
+                    handleSocialClick(social);
+                });
+            });
+
+            // Footer links
+            document.getElementById('privacy-link').addEventListener('click', handlePrivacyClick);
+            document.getElementById('terms-link').addEventListener('click', handleTermsClick);
+            document.getElementById('cookies-link').addEventListener('click', handleCookiesClick);
+
+            // CTA buttons with analytics
+            document.querySelectorAll('.cta-button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Track CTA clicks
+                    const cta = this.textContent.trim();
+                    console.log('CTA clicked:', cta);
+                    
+                    // Add visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        }
+
+        // Modal functionality
+        function initializeModal() {
+            const modal = document.getElementById('success-modal');
+            const closeBtn = document.getElementById('modal-close');
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('show');
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+
+            // Close modal on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    modal.classList.remove('show');
+                }
+            });
+        }
+
+        // Handle social media clicks
+        function handleSocialClick(social) {
+            const urls = {
+                facebook: 'https://facebook.com/luxuryresidences',
+                instagram: 'https://instagram.com/luxuryresidences',
+                youtube: 'https://youtube.com/luxuryresidences',
+                linkedin: 'https://linkedin.com/company/luxuryresidences'
+            };
+
+            // In real app, would open actual social media pages
+            console.log(`Redirecting to ${social}:`, urls[social]);
+            
+            // Show feedback
+            showMessage(`Redirecionando para ${social.charAt(0).toUpperCase() + social.slice(1)}...`);
+        }
+
+        // Visit message
+        function showVisitMessage() {
+            showMessage('Agendamento em desenvolvimento! Em breve você poderá agendar sua visita online.', 'info');
+        }
+
+        // Footer link handlers
+        function handlePrivacyClick(e) {
+            e.preventDefault();
+            showMessage('Política de Privacidade: Em desenvolvimento. Entre em contato para mais informações.', 'info');
+        }
+
+        function handleTermsClick(e) {
+            e.preventDefault();
+            showMessage('Termos de Uso: Em desenvolvimento. Entre em contato para mais informações.', 'info');
+        }
+
+        function handleCookiesClick(e) {
+            e.preventDefault();
+            showMessage('Política de Cookies: Este site utiliza cookies para melhorar sua experiência.', 'info');
+        }
+
+        // General message function
+        function showMessage(message, type = 'success') {
+            const colors = {
+                success: '#2ed573',
+                info: '#3742fa',
+                warning: '#ffa502',
+                error: '#ff4757'
+            };
+
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${colors[type]};
+                color: white;
+                padding: 20px 30px;
+                border-radius: 15px;
+                z-index: 10001;
+                max-width: 400px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                animation: slideInRight 0.3s ease;
+                font-weight: 500;
+                line-height: 1.4;
+            `;
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => messageDiv.remove(), 300);
+            }, 5000);
+
+            // Click to dismiss
+            messageDiv.addEventListener('click', () => {
+                messageDiv.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => messageDiv.remove(), 300);
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + K to focus search/contact
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('#contact input[name="name"]').focus();
+            }
+            
+            // Alt + 1-5 for quick navigation
+            if (e.altKey && !isNaN(e.key)) {
+                const sections = ['#hero', '#concept', '#amenities', '#plans', '#contact'];
+                const index = parseInt(e.key) - 1;
+                if (sections[index]) {
+                    document.querySelector(sections[index]).scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+
+        // Performance optimization
+        let ticking = false;
+        function optimizedScroll() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    // Scroll-based animations here
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', optimizedScroll);
+
+        // Page visibility API for analytics
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                console.log('User returned to page');
+            } else {
+                console.log('User left page');
+            }
+        });
+
+        // Add CSS animations for messages
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize everything
+        console.log('🏙️ Luxury Residences - Site carregado com sucesso!');
+        console.log('✨ Recursos avançados ativados:');
+        console.log('   🎨 Animações 3D e efeitos visuais');
+        console.log('   🖱️ Cursor personalizado');
+        console.log('   📱 Design responsivo avançado');
+        console.log('   ✅ Validação de formulário');
+        console.log('   ⌨️ Atalhos de teclado (Ctrl+K, Alt+1-5)');
+        console.log('   📊 Tracking de conversões');
+
+        function initializeRoomNavigation() {
+    document.getElementById('prev-room').addEventListener('click', prevRoom);
+    document.getElementById('next-room').addEventListener('click', nextRoom);
+    document.getElementById('view-plan-btn').addEventListener('click', viewPlan);
+    document.getElementById('switch-version-btn').addEventListener('click', switchVersion);
+    document.getElementById('prev-photo').addEventListener('click', prevPhoto);
+    document.getElementById('next-photo').addEventListener('click', nextPhoto);
+    
+    loadCurrentRoom();
+    initializeZoom();
+    updateRoomIndicator(); 
+}
+
+function prevRoom() {
+    currentRoomIndex = (currentRoomIndex - 1 + roomKeys.length) % roomKeys.length;
+    currentGalleryIndex = 0; 
+    loadCurrentRoom();
+}
+
+function nextRoom() {
+    currentRoomIndex = (currentRoomIndex + 1) % roomKeys.length;
+    currentGalleryIndex = 0;  
+    loadCurrentRoom();
+}
+
+function prevPhoto() {
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    const totalImages = roomData.gallery.length;  // ✅ .gallery existe
+    
+    currentMode = 'gallery';
+    currentGalleryIndex = (currentGalleryIndex - 1 + totalImages) % totalImages;  // ✅ Variável correta
+    updateCurrentPhoto();
+}
+
+
+
+function updateCurrentPhoto() {
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    const roomImage = document.getElementById('room-image');
+    
+    // ✅ REMOVIDO O DELAY - Troca instantânea
+    if (currentMode === 'gallery') {
+        roomImage.src = roomData.gallery[currentGalleryIndex];
+    } else {
+        roomImage.src = roomData.versions[currentVersionIndex];
+    }
+    
+    currentZoom = 1;
+    roomImage.style.transform = 'scale(1)';
+    updateZoomIndicator();
+    updatePhotoCounter();
+    
+    // ✅ OPCIONAL: Pequena animação suave (muito rápida)
+    roomImage.style.transition = 'opacity 0.1s ease';
+    roomImage.style.opacity = '0.8';
+    setTimeout(() => {
+        roomImage.style.opacity = '1';
+    }, 50);
+}
+
+function loadCurrentRoom() {
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    
+    document.getElementById('room-title').textContent = roomData.title;
+    document.getElementById('room-description').textContent = roomData.description;
+    
+    // Sempre começar no modo gallery, primeira foto
+    currentMode = 'gallery';
+    currentGalleryIndex = 0;
+    currentVersionIndex = 0;
+    
+    const roomImage = document.getElementById('room-image');
+    
+    // ✅ Ajustar container automaticamente quando a imagem carregar
+    roomImage.onload = function() {
+        const container = document.querySelector('.plan-visual');
+        const aspectRatio = this.naturalHeight / this.naturalWidth;
+        
+        // Se a imagem for muito alta (proporção > 1.3)
+        if (aspectRatio > 1.3) {
+            container.style.minHeight = '500px';
+        } 
+        // Se for muito larga (proporção < 0.6)
+        else if (aspectRatio < 0.6) {
+            container.style.minHeight = '300px';
+        }
+        // Proporção normal
+        else {
+            container.style.minHeight = '400px';
+        }
+         document.getElementById('switch-version-btn').innerHTML = '2° Opção';
+    };
+    
+    roomImage.src = roomData.gallery[currentGalleryIndex];
+    
+    currentZoom = 1;
+    roomImage.style.transform = 'scale(1)';
+    updateZoomIndicator();
+    updatePhotoCounter();
+}
+function prevPhoto() {
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    const totalImages = roomData.gallery.length;
+    
+    currentMode = 'gallery';
+    currentGalleryIndex = (currentGalleryIndex - 1 + totalImages) % totalImages;
+    updateCurrentPhoto();
+}
+
+function nextPhoto() {
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    const totalImages = roomData.gallery.length;  // ✅ .gallery (não .images)
+    
+    currentMode = 'gallery';
+    currentGalleryIndex = (currentGalleryIndex + 1) % totalImages;  // ✅ currentGalleryIndex
+    updateCurrentPhoto();
+}
+
+function updateCurrentPhoto() {
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    const roomImage = document.getElementById('room-image');
+    
+    // ✅ TROCA INSTANTÂNEA - SEM DELAY
+    if (currentMode === 'gallery') {
+        roomImage.src = roomData.gallery[currentGalleryIndex];
+    } else {
+        roomImage.src = roomData.versions[currentVersionIndex];
+    }
+    
+    currentZoom = 1;
+    roomImage.style.transform = 'scale(1)';
+    updateZoomIndicator();
+    updatePhotoCounter();
+    
+    // ✅ OPCIONAL: Pequeno fade muito rápido (0.1s)
+    roomImage.style.transition = 'opacity 0.1s ease';
+    roomImage.style.opacity = '0.9';
+    setTimeout(() => {
+        roomImage.style.opacity = '1';
+    }, 50);  // ✅ APENAS 50ms para suavizar
+}
+
+function switchVersion() {
+    if (isFlipping) return;
+    
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    const roomImage = document.getElementById('room-image');
+    const button = document.getElementById('switch-version-btn');
+    
+    isFlipping = true;
+    
+    // Efeito flip 3D
+    roomImage.style.transform = 'rotateY(-90deg) scale(1)';
+    
+    setTimeout(() => {
+        if (currentMode === 'gallery') {
+            // ✅ Mudando para VERSION mode
+            currentMode = 'version';
+            currentVersionIndex = 1; // Vai para segunda versão
+            roomImage.src = roomData.versions[currentVersionIndex];
+            button.innerHTML = 'Voltar à Primeira';
+        } else {
+            // ✅ Voltando para GALLERY mode
+            currentMode = 'gallery';
+            currentVersionIndex = 0;
+            roomImage.src = roomData.gallery[currentGalleryIndex]; // ✅ Volta para gallery
+            button.innerHTML = ' 2° Opção';
+        }
+        
+        currentZoom = 1;
+        updateZoomIndicator();
+        updatePhotoCounter();
+        
+        roomImage.style.transform = 'rotateY(90deg) scale(1)';
+        setTimeout(() => {
+            roomImage.style.transform = 'rotateY(0deg) scale(1)';
+            isFlipping = false;
+        }, 200);
+    }, 300);
+}
+function updatePhotoCounter() {
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    
+    if (currentMode === 'gallery') {
+        const totalImages = roomData.gallery.length;
+        document.getElementById('photo-counter').textContent = `${currentGalleryIndex + 1} / ${totalImages}`;
+    } else {
+        document.getElementById('photo-counter').textContent = `Versão ${currentVersionIndex + 1} / 2`;
+    }
+}
+
+function viewPlan() {
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    
+    // Atualizar título do modal
+    document.getElementById('plant-modal-title').textContent = `Planta Baixa - ${roomData.title}`;
+    
+    // ✅ PLANTA ESPECÍFICA PARA CADA CÔMODO
+    const plantImages = {
+        'cozinha': './plantahome.png',           // Home
+        'quarto': './plantaquarto1.png',        // Quarto-1
+        'banheiro': './plantaquarto2.png',      // Quarto-2
+        'varanda': './plantainterna.png',       // Interno
+        'escritorio': './plantadespensa.png',   // Despensa
+        'lavanderia': './plantalavanderia.png', // Lavanderia
+        'garagem': './plantalavabo.png',        // Lavabo
+        'piscina': './plantafachadainterna.png', // Fachada Interna
+        'jardim': './plantasauna.png', // Banheiro Sauna
+        'entrada': './plantafachadainterna.png' // Fachada Externa
+    };
+    
+    // Pegar a imagem da planta para o cômodo atual
+    const plantImage = plantImages[roomKey];
+    
+    if (plantImage) {
+        document.getElementById('plant-image').src = plantImage;
+        // Esconder placeholder se tiver imagem
+        document.querySelector('.plant-placeholder').style.display = 'none';
+        document.getElementById('plant-image').style.display = 'block';
+    } else {
+        // Mostrar placeholder se não tiver imagem
+        document.getElementById('plant-image').style.display = 'none';
+        document.querySelector('.plant-placeholder').style.display = 'block';
+    }
+    
+    // Abrir modal
+    document.getElementById('plant-modal').style.display = 'block';
+}
+// ✅ ADICIONAR no final do JavaScript, antes do fechamento
+document.getElementById('plant-modal-close').addEventListener('click', function() {
+    document.getElementById('plant-modal').style.display = 'none';
+});
+
+// Fechar ao clicar no fundo
+document.querySelector('.plant-modal-overlay').addEventListener('click', function() {
+    document.getElementById('plant-modal').style.display = 'none';
+});
+
+// Fechar com ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.getElementById('plant-modal').style.display = 'none';
+    }
+});
+
+function initializeZoom() {
+    const planVisual = document.querySelector('.plan-visual');
+    const roomImage = document.getElementById('room-image');
+    
+    planVisual.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -0.1 : 0.1;
+        currentZoom = Math.max(1, Math.min(3, currentZoom + delta));
+        roomImage.style.transform = `scale(${currentZoom})`;
+        updateZoomIndicator();
+    });
+    
+    roomImage.addEventListener('click', function() {
+        if (currentZoom > 1) {
+            currentZoom = 1;
+            roomImage.style.transform = 'scale(1)';
+            updateZoomIndicator();
+        }
+    });
+}
+
+function updateZoomIndicator() {
+    const percentage = Math.round(currentZoom * 100);
+    document.getElementById('zoom-indicator').textContent = `Zoom: ${percentage}%`;
+}
+
+function testImage(imagePath) {
+    const img = new Image();
+    img.onload = function() {
+        console.log('✅ Imagem carregou:', imagePath);
+    };
+    img.onerror = function() {
+        console.log('❌ Erro ao carregar:', imagePath);
+    };
+    img.src = imagePath;
+}
+
+
+
+// ✅ MENU HAMBURGER
+function initializeMobileMenu() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    if (!menuToggle || !navMenu) return;
+    
+    menuToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navMenu.classList.toggle('mobile');
+        navMenu.classList.toggle('show');
+    });
+    
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('mobile', 'show');
+        });
+    });
+}
+
+// ✅ NAVEGAÇÃO MOBILE
+function initializeMobileRoomNav() {
+    const prevMobile = document.getElementById('prev-room-mobile');
+    const nextMobile = document.getElementById('next-room-mobile');
+    
+    if (prevMobile) prevMobile.addEventListener('click', prevRoom);
+    if (nextMobile) nextMobile.addEventListener('click', nextRoom);
+    
+    updateRoomIndicator();
+}
+
+function updateRoomIndicator() {
+    const indicator = document.getElementById('room-indicator');
+    if (indicator) {
+        indicator.textContent = `Cômodo ${currentRoomIndex + 1} / ${roomKeys.length}`;
+    }
+}
+// ✅ FUNÇÃO PARA INICIALIZAR MENU MOBILE
+function initializeMobileMenu() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+    
+    if (!menuToggle || !navMenu) return;
+    
+    menuToggle.addEventListener('click', function() {
+        this.classList.toggle('active');
+        navMenu.classList.toggle('mobile');
+        navMenu.classList.toggle('show');
+    });
+    
+    // Fechar menu ao clicar em link
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('mobile', 'show');
+        });
+    });
+}
+
+// ✅ FUNÇÃO PARA INICIALIZAR NAVEGAÇÃO MOBILE
+function initializeMobileRoomNav() {
+    const prevMobile = document.getElementById('prev-room-mobile');
+    const nextMobile = document.getElementById('next-room-mobile');
+    
+    if (prevMobile) prevMobile.addEventListener('click', prevRoom);
+    if (nextMobile) nextMobile.addEventListener('click', nextRoom);
+    
+    updateRoomIndicator();
+}
+
+// ✅ FUNÇÃO MELHORADA PARA CARREGAR CÔMODOS
+function loadCurrentRoom() {
+    const roomKey = roomKeys[currentRoomIndex];
+    const roomData = roomsData[roomKey];
+    
+    document.getElementById('room-title').textContent = roomData.title;
+    document.getElementById('room-description').textContent = roomData.description;
+    
+    currentMode = 'gallery';
+    currentGalleryIndex = 0;
+    currentVersionIndex = 0;
+    
+    const roomImage = document.getElementById('room-image');
+    
+    // ✅ AJUSTE RESPONSIVO AUTOMÁTICO
+    roomImage.onload = function() {
+        const container = document.querySelector('.plan-visual');
+        const aspectRatio = this.naturalHeight / this.naturalWidth;
+        
+        // Diferentes ajustes para mobile e desktop
+        if (window.innerWidth <= 768) {
+            // MOBILE - altura mais consistente
+            container.style.height = '350px';
+            container.style.minHeight = '350px';
+        } else {
+            // DESKTOP - altura variável
+            if (aspectRatio > 1.3) {
+                container.style.height = '500px';
+            } else if (aspectRatio < 0.6) {
+                container.style.height = '350px';
+            } else {
+                container.style.height = '450px';
+            }
+        }
+        
+        // Centralizar a imagem
+        this.style.margin = '0 auto';
+        this.style.display = 'block';
+    };
+    
+    roomImage.src = roomData.gallery[currentGalleryIndex];
+    
+    currentZoom = 1;
+    roomImage.style.transform = 'scale(1)';
+    updateZoomIndicator();
+    updatePhotoCounter();
+    updateRoomIndicator();
+    
+    document.getElementById('switch-version-btn').innerHTML = '2° Opção';
+}
+
+// ✅ DETECTAR RESIZE DA TELA
+window.addEventListener('resize', function() {
+    // Recarregar quando rotacionar tela
+    if (window.innerWidth <= 768) {
+        loadCurrentRoom();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📱 DOM CARREGADO - INICIANDO...');
+    
+    const loadingScreen = document.querySelector('.loading-screen');
+    if (loadingScreen) {
+        loadingScreen.style.display = 'none';
+    }
+    
+    // INICIALIZAÇÕES BÁSICAS
+    try {
+        initializeParticles();
+        initializeCustomCursor();
+        initializeAnimations();
+        console.log('✅ Animações inicializadas');
+    } catch (e) {
+        console.log('⚠️ Erro nas animações, continuando...');
+    }
+    
+    // ROOM NAVIGATION
+    try {
+        initializeRoomNavigation();
+        console.log('✅ Navegação de cômodos iniciada');
+    } catch (e) {
+        console.log('⚠️ Erro na navegação, continuando...');
+    }
+    
+    // ✅ APENAS UMA CHAMADA DO MENU
+    initializeMobileMenu();
+    initializeMobileRoomNav();
+    
+    console.log('🎉 INICIALIZAÇÃO COMPLETA');
+});
+
+
+
+    </script>
+</body>
+</html>
