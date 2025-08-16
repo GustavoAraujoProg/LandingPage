@@ -4052,6 +4052,21 @@ html, body, div, span, section, nav, header, footer, main, article {
         height: 24px;
     }
 }
+
+/* ✅ ADICIONAR NO FINAL DO CSS: */
+.room-image {
+    transition: none !important; /* Remove todas as transições */
+}
+
+.plan-visual {
+    will-change: transform; /* Otimiza animações */
+}
+
+/* Otimizar vídeo */
+.concept-video {
+    will-change: auto;
+    transform: translateZ(0); /* Força aceleração de hardware */
+}
         
     </style>
 </head>
@@ -4514,12 +4529,12 @@ oferecer sofisticação e conforto:</h2>
             './BANHEIROQUARTO2_2.png',
         ]
     },
-    'varanda': {
+    'interno': {
         title: 'Interno',
         versions: [
-            
-           
-        ],
+      './COZINHA_FRENTE_NEROMARQUINA.png',           
+        './COZINHA_FRENTE_CALACATA.png'           
+    ],
         gallery: [
               './INTERNO11.png',
             './INTERNO12.jpg',
@@ -5345,12 +5360,6 @@ function updateCurrentPhoto() {
     updateZoomIndicator();
     updatePhotoCounter();
     
-    // ✅ OPCIONAL: Pequeno fade muito rápido (0.1s)
-    roomImage.style.transition = 'opacity 0.1s ease';
-    roomImage.style.opacity = '0.9';
-    setTimeout(() => {
-        roomImage.style.opacity = '1';
-    }, 50);  // ✅ APENAS 50ms para suavizar
 }
 
 function switchVersion() {
@@ -5368,17 +5377,31 @@ function switchVersion() {
     
     setTimeout(() => {
         if (currentMode === 'gallery') {
-            // ✅ Mudando para VERSION mode
+            // ✅ Mudando para VERSION mode - versão 1
             currentMode = 'version';
-            currentVersionIndex = 1; // Vai para segunda versão
-            roomImage.src = roomData.versions[currentVersionIndex];
-            button.innerHTML = 'Voltar à Primeira';
-        } else {
-            // ✅ Voltando para GALLERY mode
-            currentMode = 'gallery';
             currentVersionIndex = 0;
-            roomImage.src = roomData.gallery[currentGalleryIndex]; // ✅ Volta para gallery
-            button.innerHTML = ' 2° Opção';
+            roomImage.src = roomData.versions[currentVersionIndex];
+            button.innerHTML = ' Próxima Versão';
+        } else {
+            // ✅ Ciclar entre as 3 versões
+            currentVersionIndex = (currentVersionIndex + 1) % roomData.versions.length;
+            
+            if (currentVersionIndex === 0) {
+                button.innerHTML = ' Próxima Versão';
+            } else if (currentVersionIndex === roomData.versions.length - 1) {
+                button.innerHTML = ' Voltar à Original';
+            } else {
+                button.innerHTML = ' Próxima Versão';
+            }
+            
+            // Se chegou no final, volta para gallery
+            if (currentVersionIndex === 0 && roomData.versions.length > 1) {
+                currentMode = 'gallery';
+                roomImage.src = roomData.gallery[currentGalleryIndex];
+                button.innerHTML = ' 2ª Opção';
+            } else {
+                roomImage.src = roomData.versions[currentVersionIndex];
+            }
         }
         
         currentZoom = 1;
@@ -5389,8 +5412,8 @@ function switchVersion() {
         setTimeout(() => {
             roomImage.style.transform = 'rotateY(0deg) scale(1)';
             isFlipping = false;
-        }, 200);
-    }, 300);
+        }, 100);
+    }, 150);
 }
 function updatePhotoCounter() {
     const roomKey = roomKeys[currentRoomIndex];
@@ -5400,7 +5423,9 @@ function updatePhotoCounter() {
         const totalImages = roomData.gallery.length;
         document.getElementById('photo-counter').textContent = `${currentGalleryIndex + 1} / ${totalImages}`;
     } else {
-        document.getElementById('photo-counter').textContent = `Versão ${currentVersionIndex + 1} / 2`;
+        // ✅ Mostrar qual versão está sendo exibida
+        const totalVersions = roomData.versions.length;
+        document.getElementById('photo-counter').textContent = `Versão ${currentVersionIndex + 1} / ${totalVersions}`;
     }
 }
 
