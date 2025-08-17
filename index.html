@@ -4067,6 +4067,432 @@ html, body, div, span, section, nav, header, footer, main, article {
     will-change: auto;
     transform: translateZ(0); /* Força aceleração de hardware */
 }
+/* Nova Seção de Planta Baixa Simplificada */
+.plan-image-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    background: var(--white);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--medium-gray);
+    overflow: hidden;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.plan-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+    user-select: none;
+}
+
+.plan-image.zoomed {
+    cursor: grab;
+}
+
+.plan-image.zoomed:active {
+    cursor: grabbing;
+}
+
+.zoom-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 15px;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.plan-image-container:hover .zoom-controls {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.zoom-btn {
+    background: var(--accent-gold);
+    color: var(--white);
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.zoom-btn:hover {
+    background: var(--accent-gold-light);
+    transform: scale(1.1);
+}
+
+.zoom-level {
+    color: var(--white);
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 45px;
+    text-align: center;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .plan-image-container {
+        padding: 20px;
+        min-height: 400px;
+        margin: 0 20px;
+    }
+    
+    .zoom-controls {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 12px;
+    }
+    
+    .zoom-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+    
+    .zoom-level {
+        font-size: 0.8rem;
+        min-width: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .plan-image-container {
+        margin: 0 10px;
+        padding: 15px;
+        min-height: 350px;
+    }
+}
+/* ===== NOVA GALERIA ===== */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.gallery-item {
+    position: relative;
+    height: 250px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.4s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    color: var(--white);
+    padding: 30px 20px 20px;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-overlay h4 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.gallery-overlay span {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* ===== MODAL DA GALERIA ===== */
+.gallery-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    animation: modalFadeIn 0.3s ease;
+}
+
+.gallery-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.gallery-modal-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.gallery-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gallery-modal-header h3 {
+    color: var(--white);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.gallery-modal-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--white);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* Tabs de Versões */
+.version-tabs {
+    display: flex;
+    gap: 10px;
+    padding: 20px 0;
+    justify-content: center;
+}
+
+.version-tab {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    padding: 12px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.version-tab.active,
+.version-tab:hover {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: var(--white);
+}
+
+/* Imagem Principal */
+.gallery-modal-image-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.gallery-modal-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.gallery-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--white);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.gallery-nav-arrow:hover {
+    background: var(--accent-gold);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.gallery-nav-arrow.prev {
+    left: 20px;
+}
+
+.gallery-nav-arrow.next {
+    right: 20px;
+}
+
+.gallery-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+}
+
+/* Thumbnails */
+.gallery-thumbnails {
+    display: flex;
+    gap: 10px;
+    padding: 20px 0;
+    overflow-x: auto;
+    justify-content: center;
+    max-height: 120px;
+}
+
+.gallery-thumbnail {
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+}
+
+.gallery-thumbnail:hover,
+.gallery-thumbnail.active {
+    border-color: var(--accent-gold);
+    transform: scale(1.1);
+}
+
+.gallery-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .gallery-item {
+        height: 200px;
+    }
+    
+    .gallery-modal-container {
+        padding: 10px;
+    }
+    
+    .gallery-nav-arrow {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .gallery-nav-arrow.prev {
+        left: 10px;
+    }
+    
+    .gallery-nav-arrow.next {
+        right: 10px;
+    }
+    
+    .version-tabs {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .version-tab {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .gallery-thumbnails {
+        padding: 15px 0;
+    }
+    
+    .gallery-thumbnail {
+        width: 60px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    
+    .gallery-item {
+        height: 180px;
+    }
+    
+    .gallery-modal-header h3 {
+        font-size: 1.4rem;
+    }
+}
         
     </style>
 </head>
@@ -4253,106 +4679,157 @@ oferecer sofisticação e conforto:</h2>
         </div>
     </section>
 
-    <!-- Floor Plans Section -->
-    <section class="section floor-plans" id="plans">
-       <div class="container">
-    <h2 class="serif-font fade-in">Planta Baixa</h2>
-    
-    <div class="plan-content fade-in" id="room-content" style="position: relative;">
-        <!-- Seta Esquerda -->
-        <button class="room-nav-arrow prev" id="prev-room">←</button>
+   <!-- Floor Plans Section -->
+<section class="section floor-plans" id="plans">
+    <div class="container">
+        <h2 class="serif-font fade-in">Planta Baixa</h2>
         
-        <!-- Seta Direita -->
-        <button class="room-nav-arrow next" id="next-room">→</button>
-        
-        <div class="plan-info">
-            <h3 class="serif-font" id="room-title">Sala de Estar</h3>
-            <p class="plan-description" id="room-description">
-                Ambiente integrado com design sofisticado, perfeito para receber amigos e família. Espaço amplo com pé-direito alto, iluminação natural abundante e acabamentos premium que criam uma atmosfera acolhedora e elegante.
-            </p>
+        <div class="plan-image-container fade-in">
+            <img src="./planta1.png" alt="Planta Baixa" class="plan-image" id="plan-image">
             
-            <!-- Botões de Ação -->
-            <div class="plan-actions">
-                <button class="plan-action-btn" id="view-plan-btn">
-                     Ver Planta
-                </button>
-                <button class="plan-action-btn secondary" id="switch-version-btn">
-                     2° Opção
-                </button>
+            <!-- Zoom Controls -->
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoom-in">+</button>
+                <span class="zoom-level" id="zoom-level">100%</span>
+                <button class="zoom-btn" id="zoom-out">−</button>
             </div>
-            
-            <a href="#contact" class="cta-button" style="margin-top: 150px; display: inline-flex;">
-                <span></span> Solicitar Informações
-            </a>
-        </div>
-        
-        <div class="plan-visual">
-            <div class="room-title-overlay">
-       
-    </div>
-            <div class="room-image-container">
-                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                     alt="Sala de Estar - Foto 1" 
-                     class="room-image active" 
-                     id="room-image">
-            </div>
-            
-            <!-- Setinhas para navegar fotos do mesmo cômodo -->
-            <button class="image-nav-arrow prev-image" id="prev-photo">←</button>
-            <button class="image-nav-arrow next-image" id="next-photo">→</button>
-            
-            <!-- Contador de fotos -->
-            <div class="photo-counter" id="photo-counter">1 / 3</div>
-            
-            <div class="zoom-indicator" id="zoom-indicator"></div>
         </div>
     </div>
-    <!-- ✅ NAVEGAÇÃO MOBILE PARA FOTOS -->
-<div class="mobile-room-nav">
-    <button class="room-nav-arrow mobile prev" id="prev-room-mobile">←</button>
-    <span style="color: var(--accent-gold); font-weight: 600; font-size: 0.9rem;" id="room-indicator">Cômodo 1 / 10</span>
-    <button class="room-nav-arrow mobile next" id="next-room-mobile">→</button>
-</div>
-</div>
-    </section>
+</section>
 
-    <!-- Renders Gallery -->
-    <section class="section renders" id="renders">
-        <div class="container">
-            <h2 class="serif-font fade-in">Detalhes que definem o seu novo lar</h2>
-            <div class="renders-grid">
-                <div class="render-card render-1 fade-in">
-    <img src="./FACHADA_INTERNA2.png" alt="Living Panorâmico" class="render-image">
-    <div class="render-overlay">
-        <h4>Living Panorâmico</h4>
-        <p>Vista deslumbrante através de janelas...</p>
-    </div>
-</div>
-                     <div class="render-card render-2 fade-in">
-    <img src="./QUARTO1_1.png" alt="Living Panorâmico" class="render-image">
-    <div class="render-overlay">
-         <h4>Suíte Master</h4>
-       <p>Reflexos elegantes que ampliam a sensação de espaço, com closet integrado e banheira de imersão com hidromassagem.</p>
-    </div>
-</div>
-                 <div class="render-card render-3 fade-in">
-    <img src="./INTERNO13.png" alt="Living Panorâmico" class="render-image">
-    <div class="render-overlay">
-        <h4>Cozinha Gourmet</h4>
-       <p>Integração perfeita com a área de lazer, equipada com eletrodomésticos Miele e bancada em mármore Carrara.</p>
-    </div>
-</div>
-              <div class="render-card render-4 fade-in">
-    <img src="./QUARTO1_1.png" alt="Living Panorâmico" class="render-image">
-    <div class="render-overlay">
-        <h4>Terraço Privativo</h4>
-        <p>Espaço exclusivo para momentos especiais com churrasqueira gourmet e jardim vertical automatizado.</p>
-    </div>
-</div>
+   <!-- Advanced Gallery Section -->
+<section class="section gallery" id="renders">
+    <div class="container">
+        <h2 class="serif-font fade-in">Galeria de Ambientes</h2>
+        
+        <!-- Grid de Imagens -->
+        <div class="gallery-grid">
+            <!-- Home -->
+            <div class="gallery-item fade-in" data-room="home" data-image="0">
+                <img src="./HOME_1.png" alt="Home - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Home</h4>
+                    <span>5 fotos</span>
+                </div>
+            </div>
+            
+            <!-- Quarto 1 -->
+            <div class="gallery-item fade-in" data-room="quarto1" data-image="0">
+                <img src="./QUARTO1_1.png" alt="Quarto 1 - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Quarto 1</h4>
+                    <span>8 fotos</span>
+                </div>
+            </div>
+            
+            <!-- Quarto 2 -->
+            <div class="gallery-item fade-in" data-room="quarto2" data-image="0">
+                <img src="./QUARTO2_1.png" alt="Quarto 2 - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Quarto 2</h4>
+                    <span>7 fotos</span>
+                </div>
+            </div>
+            
+            <!-- Interno -->
+            <div class="gallery-item fade-in" data-room="interno" data-image="0">
+                <img src="./INTERNO11.png" alt="Interno - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Área Interna</h4>
+                    <span>10 fotos</span>
+                </div>
+            </div>
+            
+            <!-- Despensa -->
+            <div class="gallery-item fade-in" data-room="despensa" data-image="0">
+                <img src="./DESPENSA_1.png" alt="Despensa - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Despensa</h4>
+                    <span>4 fotos</span>
+                </div>
+            </div>
+            
+            <!-- Lavanderia -->
+            <div class="gallery-item fade-in" data-room="lavanderia" data-image="0">
+                <img src="./LAVANDERIA_1.png" alt="Lavanderia - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Lavanderia</h4>
+                    <span>3 fotos</span>
+                </div>
+            </div>
+            
+            <!-- Lavabo -->
+            <div class="gallery-item fade-in" data-room="lavabo" data-image="0">
+                <img src="./LAVABO1.png" alt="Lavabo - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Lavabo</h4>
+                    <span>2 fotos</span>
+                </div>
+            </div>
+            
+            <!-- Fachada Interna -->
+            <div class="gallery-item fade-in" data-room="fachada_interna" data-image="0">
+                <img src="./FACHADA_INTERNA1.png" alt="Fachada Interna - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Fachada Interna</h4>
+                    <span>6 fotos</span>
+                </div>
+            </div>
+            
+            <!-- Banheiro Sauna -->
+            <div class="gallery-item fade-in" data-room="banheiro_sauna" data-image="0">
+                <img src="./BANHEIRO_SAUNA1.png" alt="Banheiro Sauna - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Banheiro Sauna</h4>
+                    <span>4 fotos</span>
+                </div>
+            </div>
+            
+            <!-- Fachada Externa -->
+            <div class="gallery-item fade-in" data-room="fachada_externa" data-image="0">
+                <img src="./FACHADA_EXTERNA1.png" alt="Fachada Externa - Vista 1">
+                <div class="gallery-overlay">
+                    <h4>Fachada Externa</h4>
+                    <span>2 fotos</span>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- Modal da Galeria -->
+<div class="gallery-modal" id="gallery-modal">
+    <div class="gallery-modal-overlay"></div>
+    <div class="gallery-modal-container">
+        <!-- Header -->
+        <div class="gallery-modal-header">
+            <h3 id="modal-room-title">Home</h3>
+            <button class="gallery-modal-close" id="gallery-modal-close">×</button>
+        </div>
+        
+        <!-- Navegação de Versões -->
+        <div class="version-tabs" id="version-tabs">
+            <button class="version-tab active" data-version="0">Original</button>
+            <button class="version-tab" data-version="1">2ª Opção</button>
+            <button class="version-tab" data-version="2">3ª Opção</button>
+        </div>
+        
+        <!-- Imagem Principal -->
+        <div class="gallery-modal-image-container">
+            <button class="gallery-nav-arrow prev" id="gallery-prev">‹</button>
+            <img src="" alt="" id="modal-image" class="gallery-modal-image">
+            <button class="gallery-nav-arrow next" id="gallery-next">›</button>
+            
+            <!-- Contador -->
+            <div class="gallery-counter" id="gallery-counter">1 / 5</div>
+        </div>
+        
+        <!-- Thumbnails -->
+        <div class="gallery-thumbnails" id="gallery-thumbnails">
+            <!-- Geradas dinamicamente -->
+        </div>
+    </div>
+</div>
 
     <!-- Contact Section -->
     <section class="section contact" id="contact">
@@ -4476,33 +4953,38 @@ oferecer sofisticação e conforto:</h2>
     </div>
 
     <script>
-
-     const roomsData = {
-   
-    'cozinha': {
+// ===== SISTEMA DE GALERIA COM PERSONALIZAÇÕES =====
+const galleryData = {
+    home: {
         title: 'Home',
-        description: '',
-        versions: [
+        images: [
             './HOME_1.png',
-            './images/versions/cozinha-alternativa.jpg'
-        ],
-        gallery: [
-            './HOME_1.png',
-            './HOME_2.png',
+            './HOME_2.png', 
             './HOME_3.png',
             './HOME_4.png',
             './HOME_5.png'
-        ]
+        ],
+        // ✅ PERSONALIZAÇÕES: mesmo cômodo, acabamentos diferentes
+        personalizations: {
+            './HOME_1.png': [
+                './HOME_1.png',           // Original
+                './HOME_1_perso2.png',    // 2ª personalização 
+                './HOME_1_perso3.png'     // 3ª personalização
+            ],
+            './HOME_2.png': [
+                './HOME_2.png',           // Original
+                './HOME_2_perso2.png'     // Só tem 2ª opção
+            ],
+            './HOME_3.png': [
+                './HOME_3.png'            // Só original
+            ]
+            // Se não tiver personalização, só mostra original
+        }
     },
     
-    'quarto': {
-        title: 'Quarto-1',
- 
-        versions: [
-            './images/versions/quarto-original.jpg',
-            './images/versions/quarto-alternativa.jpg'
-        ],
-        gallery: [
+    quarto1: {
+        title: 'Quarto 1', 
+        images: [
             './QUARTO1_1.png',
             './QUARTO1_2.png',
             './QUARTO1_3.png',
@@ -4511,134 +4993,333 @@ oferecer sofisticação e conforto:</h2>
             './QUARTO1_6.png',
             './QUARTO1_7.png',
             './QUARTO1_8.png'
-        ]
-    },
-    'banheiro': {
-        title: 'Quarto-2',
-        versions: [
-            './images/versions/banheiro-original.jpg',
-            './images/versions/banheiro-alternativa.jpg'
         ],
-        gallery: [
+        personalizations: {
+            './QUARTO1_1.png': [
+                './QUARTO1_1.png',           // Original
+                './QUARTO1_1_perso2.png',    // Móveis diferentes
+                './QUARTO1_1_perso3.png'     // Cores diferentes
+            ],
+            './QUARTO1_2.png': [
+                './QUARTO1_2.png',
+                './QUARTO1_2_perso2.png'
+            ]
+            // Outras fotos só têm versão original
+        }
+    },
+    
+    quarto2: {
+        title: 'Quarto 2',
+        images: [
             './QUARTO2_1.png',
-            './QUARTO2_2.png',
+            './QUARTO2_2.png', 
             './QUARTO2_3.png',
             './QUARTO2_4.png',
             './QUARTO2_5.png',
             './BANHEIROQUARTO2_1.png',
-            './BANHEIROQUARTO2_2.png',
-        ]
+            './BANHEIROQUARTO2_2.png'
+        ],
+        personalizations: {
+            './QUARTO2_1.png': [
+                './QUARTO2_1.png',
+                './QUARTO2_1_perso2.png'
+            ]
+        }
     },
-    'interno': {
-        title: 'Interno',
-        versions: [
-      './COZINHA_FRENTE_NEROMARQUINA.png',           
-        './COZINHA_FRENTE_CALACATA.png'           
-    ],
-        gallery: [
-              './INTERNO11.png',
+    
+    interno: {
+        title: 'Área Interna',
+        images: [
+            './INTERNO11.png',
             './INTERNO12.jpg',
-            './INTERNO13.png',
+            './INTERNO13.png', 
             './INTERNO14.png',
             './INTERNO15.png',
             './INTERNO16.png',
             './INTERNO17.png',
             './INTERNO18.png',
             './INTERNO19.png',
-            './INTERNO20.png',
-        ]
+            './INTERNO20.png'
+        ],
+
+        personalizations: {
+            './INTERNO15.png': [
+        './INTERNO15.png',                    // Original
+        './COZINHA-BRANCO.png',     // 2ª Opção
+        './COZINHA-BLACK.png'      // 3ª Opção
+    ],
+
+            './INTERNO11.png': [
+                './INTERNO11.png',
+                './INTERNO11_perso2.png',
+                './INTERNO11_perso3.png'
+            ],
+            './INTERNO13.png': [
+                './INTERNO13.png',
+                './COZINHA_FRENTE_NEROMARQUINA.png',  // Acabamento diferente
+                './COZINHA_FRENTE_CALACATA.png'       // Outro acabamento
+            ]
+        }
     },
-    'escritorio': {
+    
+    despensa: {
         title: 'Despensa',
-        versions: [
-              './images/versions/lavanderia-alternativa.jpg'
-            
-
-        ],
-        gallery: [
-             './DESPENSA_1.png',
+        images: [
+            './DESPENSA_1.png',
             './DESPENSA_2.png',
-            './DESPENSA_3.png',
-            './DESPENSA_4.png',
-        ]
-    },
-    'lavanderia': {
-        title: 'Lavanderia',
-
-        versions: [
-            './images/versions/lavanderia-original.jpg',
-            './images/versions/lavanderia-alternativa.jpg'
+            './DESPENSA_3.png', 
+            './DESPENSA_4.png'
         ],
-        gallery: [
+        personalizations: {}
+    },
+    
+    lavanderia: {
+        title: 'Lavanderia',
+        images: [
             './LAVANDERIA_1.png',
             './LAVANDERIA_2.png',
-            './LAVANDERIA_3.png',
-        ]
-    },
-    'garagem': {
-        title: 'Lavabo',
-      
-        versions: [
-            './images/versions/garagem-original.jpg',
-            './images/versions/garagem-alternativa.jpg'
+            './LAVANDERIA_3.png'
         ],
-        gallery: [
+        personalizations: {}
+    },
+    
+    lavabo: {
+        title: 'Lavabo', 
+        images: [
             './LAVABO1.png',
-            './LAVABO_2.png',
-           
-        ]
-    },
-    'piscina': {
-        title: 'Fachada Interna',
-   
-        versions: [
-            './images/versions/piscina-original.jpg',
-            './images/versions/piscina-alternativa.jpg'
+            './LAVABO_2.png'
         ],
-        gallery: [
+        personalizations: {}
+    },
+    
+    fachada_interna: {
+        title: 'Fachada Interna',
+        images: [
             './FACHADA_INTERNA1.png',
             './FACHADA_INTERNA2.png',
             './FACHADA_INTERNA3.png',
-            './FACHADA_INTERNA4.png',
+            './FACHADA_INTERNA4.png', 
             './FACHADA_INTERNA5.png',
-            './FACHADA_INTERNA6.png',
-           
-        ]
-    },
-    'jardim': {
-        title: 'Banheiro Sauna',
-        versions: [
-            './images/versions/jardim-original.jpg',
-            './images/versions/jardim-alternativa.jpg'
+            './FACHADA_INTERNA6.png'
         ],
-        gallery: [
+        personalizations: {}
+    },
+    
+    banheiro_sauna: {
+        title: 'Banheiro Sauna',
+        images: [
             './BANHEIRO_SAUNA1.png',
             './BANHEIRO_SAUNA2.png',
             './BANHEIRO_SAUNA3.png',
-            './SAUNA.png',
-    
-        ]
-    },
-    'entrada': {
-        title: 'Fachada Externa',
-        versions: [
-            './images/versions/entrada-original.jpg',
-            './images/versions/entrada-alternativa.jpg'
+            './SAUNA.png'
         ],
-        gallery: [
-            './FACHADA_EXTERNA1.png',
-            './FACHADA_EXTERNA2.png',
+        personalizations: {}
+    },
     
-        ]
+    fachada_externa: {
+        title: 'Fachada Externa',
+        images: [
+            './FACHADA_EXTERNA1.png',
+            './FACHADA_EXTERNA2.png'
+        ],
+        personalizations: {}
     }
 };
-let currentZoom = 1;
-let currentGalleryIndex = 0;  // Para as setinhas (gallery)
-let currentVersionIndex = 0;  // Para "Ver Segunda Opção" (versions)
-let currentRoomIndex = 0;
-let isFlipping = false;
-let currentMode = 'gallery';  // 'gallery' ou 'version'
-const roomKeys = Object.keys(roomsData);
+
+let currentRoom = 'home';
+let currentImageIndex = 0;
+let currentVersionIndex = 0;
+
+function initializeGallery() {
+    // Eventos dos cards da galeria
+    document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const room = this.dataset.room;
+            const imageIndex = parseInt(this.dataset.image);
+            openGalleryModal(room, imageIndex);
+        });
+    });
+    
+    // Eventos do modal
+    document.getElementById('gallery-modal-close').addEventListener('click', closeGalleryModal);
+    document.querySelector('.gallery-modal-overlay').addEventListener('click', closeGalleryModal);
+    document.getElementById('gallery-prev').addEventListener('click', prevImage);
+    document.getElementById('gallery-next').addEventListener('click', nextImage);
+    
+    // Eventos das tabs de versão
+    document.querySelectorAll('.version-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const version = parseInt(this.dataset.version);
+            switchVersion(version);
+        });
+    });
+    
+    // Fechar com ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeGalleryModal();
+        }
+        if (e.key === 'ArrowLeft') {
+            prevImage();
+        }
+        if (e.key === 'ArrowRight') {
+            nextImage();
+        }
+    });
+}
+
+function openGalleryModal(room, imageIndex = 0) {
+    currentRoom = room;
+    currentImageIndex = imageIndex;
+    currentVersionIndex = 0;
+    
+    const modal = document.getElementById('gallery-modal');
+    const roomData = galleryData[room];
+    
+    // Atualizar título
+    document.getElementById('modal-room-title').textContent = roomData.title;
+    
+    // Configurar tabs de versão
+    setupVersionTabs();
+    
+    // Carregar imagem
+    updateModalImage();
+    
+    // Gerar thumbnails
+    generateThumbnails();
+    
+    // Mostrar modal
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeGalleryModal() {
+    const modal = document.getElementById('gallery-modal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+function setupVersionTabs() {
+    const roomData = galleryData[currentRoom];
+    const currentImagePath = roomData.images[currentImageIndex];
+    const personalizations = roomData.personalizations[currentImagePath] || [currentImagePath];
+    
+    const tabs = document.querySelectorAll('.version-tab');
+    
+    tabs.forEach((tab, index) => {
+        if (index < personalizations.length) {
+            tab.style.display = 'block';
+            tab.classList.toggle('active', index === currentVersionIndex);
+            
+            // ✅ ATUALIZAR TEXTO DOS BOTÕES
+            if (index === 0) {
+                tab.textContent = 'Original';
+            } else if (index === 1) {
+                tab.textContent = '2ª Opção';
+            } else if (index === 2) {
+                tab.textContent = '3ª Opção';
+            }
+        } else {
+            tab.style.display = 'none';
+        }
+    });
+}
+
+function switchVersion(versionIndex) {
+    const roomData = galleryData[currentRoom];
+    const currentImagePath = roomData.images[currentImageIndex];
+    const personalizations = roomData.personalizations[currentImagePath] || [currentImagePath];
+    
+    if (versionIndex < personalizations.length) {
+        currentVersionIndex = versionIndex;
+        
+        // Atualizar tabs ativas
+        document.querySelectorAll('.version-tab').forEach((tab, index) => {
+            tab.classList.toggle('active', index === versionIndex);
+        });
+        
+        updateModalImage();
+    }
+}
+
+function updateModalImage() {
+    const roomData = galleryData[currentRoom];
+    const currentImagePath = roomData.images[currentImageIndex];
+    const personalizations = roomData.personalizations[currentImagePath] || [currentImagePath];
+    const imageSrc = personalizations[currentVersionIndex];
+    
+    const modalImage = document.getElementById('modal-image');
+    modalImage.src = imageSrc;
+    modalImage.alt = `${roomData.title} - Imagem ${currentImageIndex + 1}`;
+    
+    // Atualizar contador
+    const counter = document.getElementById('gallery-counter');
+    counter.textContent = `${currentImageIndex + 1} / ${roomData.images.length}`;
+    
+    // Configurar tabs
+    setupVersionTabs();
+    
+    // Atualizar thumbnails ativos
+    updateActiveThumbnail();
+}
+
+function generateThumbnails() {
+    const roomData = galleryData[currentRoom];
+    const thumbnailsContainer = document.getElementById('gallery-thumbnails');
+    
+    thumbnailsContainer.innerHTML = '';
+    
+    roomData.images.forEach((imagePath, index) => {
+        const thumbnail = document.createElement('div');
+        thumbnail.className = 'gallery-thumbnail';
+        if (index === currentImageIndex) {
+            thumbnail.classList.add('active');
+        }
+        
+        const img = document.createElement('img');
+        img.src = imagePath; // ✅ Sempre a imagem original para thumbnail
+        img.alt = `Thumbnail ${index + 1}`;
+        
+        thumbnail.appendChild(img);
+        thumbnail.addEventListener('click', () => {
+            currentImageIndex = index;
+            currentVersionIndex = 0; // ✅ Sempre volta para original
+            updateModalImage();
+        });
+        
+        thumbnailsContainer.appendChild(thumbnail);
+    });
+}
+
+function updateActiveThumbnail() {
+    document.querySelectorAll('.gallery-thumbnail').forEach((thumb, index) => {
+        thumb.classList.toggle('active', index === currentImageIndex);
+    });
+}
+
+function prevImage() {
+    const roomData = galleryData[currentRoom];
+    currentImageIndex = (currentImageIndex - 1 + roomData.images.length) % roomData.images.length;
+    currentVersionIndex = 0; // ✅ Sempre volta para original
+    updateModalImage();
+}
+
+function nextImage() {
+    const roomData = galleryData[currentRoom];
+    currentImageIndex = (currentImageIndex + 1) % roomData.images.length;
+    currentVersionIndex = 0; // ✅ Sempre volta para original
+    updateModalImage();
+}
+
+// Inicializar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    // ... código existente ...
+    
+    // ✅ ADICIONAR ESTA LINHA
+    initializeGallery();
+    
+    console.log('✅ Galeria com personalizações inicializada!');
+});
 
 
 
@@ -4692,27 +5373,6 @@ setTimeout(forceHamburgerMenu, 5000);
 // ✅ FUNÇÃO ÚNICA E DEFINITIVA DO MENU
 initializeMobileMenu
 
-// TAMBÉM ADICIONE ESTA FUNÇÃO
-function initializeMobileRoomNav() {
-    const prevMobile = document.getElementById('prev-room-mobile');
-    const nextMobile = document.getElementById('next-room-mobile');
-    
-    if (prevMobile) {
-        prevMobile.addEventListener('click', function() {
-            console.log('📱 Anterior mobile clicado');
-            prevRoom();
-        });
-    }
-    
-    if (nextMobile) {
-        nextMobile.addEventListener('click', function() {
-            console.log('📱 Próximo mobile clicado');
-            nextRoom();
-        });
-    }
-    
-    updateRoomIndicator();
-}
 
 function updateRoomIndicator() {
     const indicator = document.getElementById('room-indicator');
@@ -4730,7 +5390,6 @@ function updateRoomIndicator() {
     initializeParticles();
     initializeCustomCursor();
     initializeAnimations();
-    initializeRoomNavigation();
     initializeMobileMenu();        // ✅ MENU HAMBURGER
     initializeMobileRoomNav();     // ✅ NAVEGAÇÃO MOBILE
 });
@@ -5220,30 +5879,8 @@ function updateRoomIndicator() {
         console.log('   ⌨️ Atalhos de teclado (Ctrl+K, Alt+1-5)');
         console.log('   📊 Tracking de conversões');
 
-        function initializeRoomNavigation() {
-    document.getElementById('prev-room').addEventListener('click', prevRoom);
-    document.getElementById('next-room').addEventListener('click', nextRoom);
-    document.getElementById('view-plan-btn').addEventListener('click', viewPlan);
-    document.getElementById('switch-version-btn').addEventListener('click', switchVersion);
-    document.getElementById('prev-photo').addEventListener('click', prevPhoto);
-    document.getElementById('next-photo').addEventListener('click', nextPhoto);
-    
-    loadCurrentRoom();
-    initializeZoom();
-    updateRoomIndicator(); 
-}
+      
 
-function prevRoom() {
-    currentRoomIndex = (currentRoomIndex - 1 + roomKeys.length) % roomKeys.length;
-    currentGalleryIndex = 0; 
-    loadCurrentRoom();
-}
-
-function nextRoom() {
-    currentRoomIndex = (currentRoomIndex + 1) % roomKeys.length;
-    currentGalleryIndex = 0;  
-    loadCurrentRoom();
-}
 
 function prevPhoto() {
     const roomKey = roomKeys[currentRoomIndex];
@@ -5282,47 +5919,7 @@ function updateCurrentPhoto() {
     }, 50);
 }
 
-function loadCurrentRoom() {
-    const roomKey = roomKeys[currentRoomIndex];
-    const roomData = roomsData[roomKey];
-    
-    document.getElementById('room-title').textContent = roomData.title;
-    document.getElementById('room-description').textContent = roomData.description;
-    
-    // Sempre começar no modo gallery, primeira foto
-    currentMode = 'gallery';
-    currentGalleryIndex = 0;
-    currentVersionIndex = 0;
-    
-    const roomImage = document.getElementById('room-image');
-    
-    // ✅ Ajustar container automaticamente quando a imagem carregar
-    roomImage.onload = function() {
-        const container = document.querySelector('.plan-visual');
-        const aspectRatio = this.naturalHeight / this.naturalWidth;
-        
-        // Se a imagem for muito alta (proporção > 1.3)
-        if (aspectRatio > 1.3) {
-            container.style.minHeight = '500px';
-        } 
-        // Se for muito larga (proporção < 0.6)
-        else if (aspectRatio < 0.6) {
-            container.style.minHeight = '300px';
-        }
-        // Proporção normal
-        else {
-            container.style.minHeight = '400px';
-        }
-         document.getElementById('switch-version-btn').innerHTML = '2° Opção';
-    };
-    
-    roomImage.src = roomData.gallery[currentGalleryIndex];
-    
-    currentZoom = 1;
-    roomImage.style.transform = 'scale(1)';
-    updateZoomIndicator();
-    updatePhotoCounter();
-}
+
 function prevPhoto() {
     const roomKey = roomKeys[currentRoomIndex];
     const roomData = roomsData[roomKey];
@@ -5362,59 +5959,7 @@ function updateCurrentPhoto() {
     
 }
 
-function switchVersion() {
-    if (isFlipping) return;
-    
-    const roomKey = roomKeys[currentRoomIndex];
-    const roomData = roomsData[roomKey];
-    const roomImage = document.getElementById('room-image');
-    const button = document.getElementById('switch-version-btn');
-    
-    isFlipping = true;
-    
-    // Efeito flip 3D
-    roomImage.style.transform = 'rotateY(-90deg) scale(1)';
-    
-    setTimeout(() => {
-        if (currentMode === 'gallery') {
-            // ✅ Mudando para VERSION mode - versão 1
-            currentMode = 'version';
-            currentVersionIndex = 0;
-            roomImage.src = roomData.versions[currentVersionIndex];
-            button.innerHTML = ' Próxima Versão';
-        } else {
-            // ✅ Ciclar entre as 3 versões
-            currentVersionIndex = (currentVersionIndex + 1) % roomData.versions.length;
-            
-            if (currentVersionIndex === 0) {
-                button.innerHTML = ' Próxima Versão';
-            } else if (currentVersionIndex === roomData.versions.length - 1) {
-                button.innerHTML = ' Voltar à Original';
-            } else {
-                button.innerHTML = ' Próxima Versão';
-            }
-            
-            // Se chegou no final, volta para gallery
-            if (currentVersionIndex === 0 && roomData.versions.length > 1) {
-                currentMode = 'gallery';
-                roomImage.src = roomData.gallery[currentGalleryIndex];
-                button.innerHTML = ' 2ª Opção';
-            } else {
-                roomImage.src = roomData.versions[currentVersionIndex];
-            }
-        }
-        
-        currentZoom = 1;
-        updateZoomIndicator();
-        updatePhotoCounter();
-        
-        roomImage.style.transform = 'rotateY(90deg) scale(1)';
-        setTimeout(() => {
-            roomImage.style.transform = 'rotateY(0deg) scale(1)';
-            isFlipping = false;
-        }, 100);
-    }, 150);
-}
+
 function updatePhotoCounter() {
     const roomKey = roomKeys[currentRoomIndex];
     const roomData = roomsData[roomKey];
@@ -5429,44 +5974,7 @@ function updatePhotoCounter() {
     }
 }
 
-function viewPlan() {
-    const roomKey = roomKeys[currentRoomIndex];
-    const roomData = roomsData[roomKey];
-    
-    // Atualizar título do modal
-    document.getElementById('plant-modal-title').textContent = `Planta Baixa - ${roomData.title}`;
-    
-    // ✅ PLANTA ESPECÍFICA PARA CADA CÔMODO
-    const plantImages = {
-        'cozinha': './plantahome.png',           // Home
-        'quarto': './plantaquarto1.png',        // Quarto-1
-        'banheiro': './plantaquarto2.png',      // Quarto-2
-        'varanda': './plantainterna.png',       // Interno
-        'escritorio': './plantadespensa.png',   // Despensa
-        'lavanderia': './plantalavanderia.png', // Lavanderia
-        'garagem': './plantalavabo.png',        // Lavabo
-        'piscina': './plantafachadainterna.png', // Fachada Interna
-        'jardim': './plantasauna.png', // Banheiro Sauna
-        'entrada': './plantafachadainterna.png' // Fachada Externa
-    };
-    
-    // Pegar a imagem da planta para o cômodo atual
-    const plantImage = plantImages[roomKey];
-    
-    if (plantImage) {
-        document.getElementById('plant-image').src = plantImage;
-        // Esconder placeholder se tiver imagem
-        document.querySelector('.plant-placeholder').style.display = 'none';
-        document.getElementById('plant-image').style.display = 'block';
-    } else {
-        // Mostrar placeholder se não tiver imagem
-        document.getElementById('plant-image').style.display = 'none';
-        document.querySelector('.plant-placeholder').style.display = 'block';
-    }
-    
-    // Abrir modal
-    document.getElementById('plant-modal').style.display = 'block';
-}
+
 // ✅ ADICIONAR no final do JavaScript, antes do fechamento
 document.getElementById('plant-modal-close').addEventListener('click', function() {
     document.getElementById('plant-modal').style.display = 'none';
@@ -5594,64 +6102,7 @@ function initializeMobileRoomNav() {
     updateRoomIndicator();
 }
 
-// ✅ FUNÇÃO MELHORADA PARA CARREGAR CÔMODOS
-function loadCurrentRoom() {
-    const roomKey = roomKeys[currentRoomIndex];
-    const roomData = roomsData[roomKey];
-    
-    document.getElementById('room-title').textContent = roomData.title;
-    document.getElementById('room-description').textContent = roomData.description;
-    
-    currentMode = 'gallery';
-    currentGalleryIndex = 0;
-    currentVersionIndex = 0;
-    
-    const roomImage = document.getElementById('room-image');
-    
-    // ✅ AJUSTE RESPONSIVO AUTOMÁTICO
-    roomImage.onload = function() {
-        const container = document.querySelector('.plan-visual');
-        const aspectRatio = this.naturalHeight / this.naturalWidth;
-        
-        // Diferentes ajustes para mobile e desktop
-        if (window.innerWidth <= 768) {
-            // MOBILE - altura mais consistente
-            container.style.height = '350px';
-            container.style.minHeight = '350px';
-        } else {
-            // DESKTOP - altura variável
-            if (aspectRatio > 1.3) {
-                container.style.height = '500px';
-            } else if (aspectRatio < 0.6) {
-                container.style.height = '350px';
-            } else {
-                container.style.height = '450px';
-            }
-        }
-        
-        // Centralizar a imagem
-        this.style.margin = '0 auto';
-        this.style.display = 'block';
-    };
-    
-    roomImage.src = roomData.gallery[currentGalleryIndex];
-    
-    currentZoom = 1;
-    roomImage.style.transform = 'scale(1)';
-    updateZoomIndicator();
-    updatePhotoCounter();
-    updateRoomIndicator();
-    
-    document.getElementById('switch-version-btn').innerHTML = '2° Opção';
-}
 
-// ✅ DETECTAR RESIZE DA TELA
-window.addEventListener('resize', function() {
-    // Recarregar quando rotacionar tela
-    if (window.innerWidth <= 768) {
-        loadCurrentRoom();
-    }
-});
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📱 DOM CARREGADO - INICIANDO...');
@@ -5671,13 +6122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('⚠️ Erro nas animações, continuando...');
     }
     
-    // ROOM NAVIGATION
-    try {
-        initializeRoomNavigation();
-        console.log('✅ Navegação de cômodos iniciada');
-    } catch (e) {
-        console.log('⚠️ Erro na navegação, continuando...');
-    }
+  
     
     // ✅ APENAS UMA CHAMADA DO MENU
     initializeMobileMenu();
@@ -5686,6 +6131,119 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('🎉 INICIALIZAÇÃO COMPLETA');
 });
 
+// Nova funcionalidade de zoom para planta baixa
+let planZoom = 1;
+let isDragging = false;
+let startX, startY, translateX = 0, translateY = 0;
+
+function initializePlanZoom() {
+    const planImage = document.getElementById('plan-image');
+    const zoomInBtn = document.getElementById('zoom-in');
+    const zoomOutBtn = document.getElementById('zoom-out');
+    const zoomLevel = document.getElementById('zoom-level');
+    const container = document.querySelector('.plan-image-container');
+    
+    if (!planImage || !zoomInBtn || !zoomOutBtn) return;
+    
+    // Zoom In
+    zoomInBtn.addEventListener('click', () => {
+        planZoom = Math.min(planZoom + 0.25, 3);
+        updatePlanZoom();
+    });
+    
+    // Zoom Out
+    zoomOutBtn.addEventListener('click', () => {
+        planZoom = Math.max(planZoom - 0.25, 1);
+        updatePlanZoom();
+    });
+    
+    // Double click to reset zoom
+    planImage.addEventListener('dblclick', () => {
+        planZoom = 1;
+        translateX = 0;
+        translateY = 0;
+        updatePlanZoom();
+    });
+    
+    // Mouse wheel zoom
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -0.1 : 0.1;
+        planZoom = Math.max(1, Math.min(3, planZoom + delta));
+        updatePlanZoom();
+    });
+    
+    // Drag to pan when zoomed
+    planImage.addEventListener('mousedown', startDrag);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', endDrag);
+    
+    // Touch events for mobile
+    planImage.addEventListener('touchstart', startDragTouch);
+    planImage.addEventListener('touchmove', dragTouch);
+    planImage.addEventListener('touchend', endDrag);
+    
+    function updatePlanZoom() {
+        const percentage = Math.round(planZoom * 100);
+        zoomLevel.textContent = `${percentage}%`;
+        
+        if (planZoom === 1) {
+            translateX = 0;
+            translateY = 0;
+            planImage.classList.remove('zoomed');
+        } else {
+            planImage.classList.add('zoomed');
+        }
+        
+        planImage.style.transform = `scale(${planZoom}) translate(${translateX}px, ${translateY}px)`;
+    }
+    
+    function startDrag(e) {
+        if (planZoom > 1) {
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+        }
+    }
+    
+    function startDragTouch(e) {
+        if (planZoom > 1) {
+            isDragging = true;
+            const touch = e.touches[0];
+            startX = touch.clientX - translateX;
+            startY = touch.clientY - translateY;
+        }
+    }
+    
+    function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        updatePlanZoom();
+    }
+    
+    function dragTouch(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        translateX = touch.clientX - startX;
+        translateY = touch.clientY - startY;
+        updatePlanZoom();
+    }
+    
+    function endDrag() {
+        isDragging = false;
+    }
+}
+
+// Atualizar a inicialização principal
+document.addEventListener('DOMContentLoaded', function() {
+    // ... código existente ...
+    
+    // Adicionar esta linha
+    initializePlanZoom();
+});
 
 
     </script>
