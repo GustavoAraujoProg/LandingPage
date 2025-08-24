@@ -13,6 +13,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#1A1A1A">
 <!-- ✅ PRELOAD TODAS AS IMAGENS CRÍTICAS -->
+<!-- ✅ PRELOAD TODAS AS IMAGENS CRÍTICAS (CORRIGIDO) -->
 <link rel="preload" as="image" href="./FACHADA_INTERNA3.png">
 <link rel="preload" as="image" href="./HOME_1.png">
 <link rel="preload" as="image" href="./QUARTO1_1.png">
@@ -25,7 +26,6 @@
 <link rel="preload" as="image" href="./BANHEIRO_SAUNA1.png">
 <link rel="preload" as="image" href="./FACHADA_EXTERNA1.png">
 <link rel="preload" as="image" href="./planta1.png">
-<link rel="preload" as="video" href="./video.MP4">
 
 <!-- ✅ PRELOAD IMAGENS INTERNAS PRINCIPAIS -->
 <link rel="preload" as="image" href="./INTERNO12.jpg">
@@ -34,6 +34,8 @@
 <link rel="preload" as="image" href="./INTERNO15.png">
 <link rel="preload" as="image" href="./QUARTO1_2.png">
 <link rel="preload" as="image" href="./QUARTO1_3.png">
+
+<!-- ✅ VÍDEO - SEM PRELOAD (será carregado via JavaScript) -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -943,24 +945,37 @@ video {
         }
 
 
-        .amenities h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            text-align: center;
-            margin-bottom: 80px;
-            color: var(--white);
-            font-weight: 700;
-            text-shadow: 0 0 30px var(--accent-gold);
-        }
+       .amenities h2 {
+    font-size: clamp(2.2rem, 4.5vw, 3.5rem);  
+    text-align: center;
+    margin-bottom: 60px;                        
+    color: var(--white);
+    font-weight: 400;                          /* ✅ MAIS FINO */
+    line-height: 1.4;                          /* ✅ MAIS RESPIRADO */
+    letter-spacing: 1px;                       /* ✅ ESPAÇAMENTO ELEGANTE */
+    text-shadow: 0 2px 15px rgba(181, 148, 88, 0.2);  /* ✅ SOMBRA MAIS SUTIL */
+    opacity: 0.95;                            /* ✅ LEVEMENTE TRANSPARENTE */
+    font-family: 'Playfair Display', serif;   /* ✅ MESMA FONTE DA LANDING */
+}
 
+/* ✅ MOBILE */
+@media (max-width: 768px) {
+    .amenities h2 {
+        font-size: 1.9rem;
+        letter-spacing: 0.5px;
+        line-height: 1.3;
+        margin-bottom: 40px;
+    }
+}
         .amenities-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 50px;
         }
 
-       .amenity-card {
-    background-size: cover;              /* ✅ Imagem cobre todo o card */
-    background-position: center;         /* ✅ Centraliza a imagem */
+     .amenity-card {
+    background-size: cover;              /* ✅ MANTÉM ISSO */
+    background-position: center;         /* ✅ MANTÉM ISSO */
     background-repeat: no-repeat;
     border: 1px solid var(--glass-border);
     border-radius: 25px;
@@ -971,10 +986,17 @@ video {
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(20px);
-    min-height: 300px;                   /* ✅ Altura mínima para o card */
+    min-height: 300px;
 }
 
-/* Overlay escuro sobre a imagem */
+/* ✅ REMOVER O ZOOM NO HOVER */
+.amenity-card:hover {
+    transform: translateY(-5px);         /* ✅ SÓ ELEVAR, SEM ZOOM */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    /* ✅ REMOVIDO: transform: scale(1.03) rotateY(5deg); */
+}
+
+/* ✅ OVERLAY MAIS ESCURO PARA MELHOR LEGIBILIDADE */
 .amenity-card::before {
     content: '';
     position: absolute;
@@ -982,14 +1004,16 @@ video {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);      /* ✅ Escurece a imagem */
+    background: rgba(0, 0, 0, 0.5);      /* ✅ FUNDO ESCURO FIXO */
     z-index: 1;
     transition: all 0.3s ease;
 }
 
 .amenity-card:hover::before {
-    background: rgba(0, 0, 0, 0.4);      /* ✅ Mais claro no hover */
+    background: rgba(0, 0, 0, 0.3);      /* ✅ MAIS CLARO NO HOVER */
 }
+
+
 
 /* Conteúdo na frente */
 .amenity-card h3,
@@ -1319,10 +1343,7 @@ p
         }
         
 
-        .render-card:hover {
-            transform: scale(1.03) rotateY(5deg);
-            box-shadow: 0 30px 80px rgba(181, 148, 88, 0.3);
-        }
+       
 
         .render-1 {
             background: linear-gradient(135deg, var(--secondary-dark), var(--primary-black));
@@ -1391,13 +1412,27 @@ p
 
 
         .contact h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            text-align: center;
-            margin-bottom: 80px;
-            color: var(--white);
-            font-weight: 700;
-            text-shadow: 0 0 30px var(--accent-gold);
-        }
+    font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+    text-align: center;
+    margin-bottom: 60px;
+    color: var(--white);
+    font-weight: 400;                          /* ✅ MAIS FINO, ELEGANTE */
+    line-height: 1.4;
+    letter-spacing: 1px;                       /* ✅ ESPAÇAMENTO ELEGANTE */
+    text-shadow: 0 2px 15px rgba(181, 148, 88, 0.25);
+    opacity: 0.95;                            /* ✅ LEVEMENTE TRANSPARENTE */
+    font-family: 'Playfair Display', serif;   /* ✅ MESMA FONTE */
+}
+
+/* ✅ MOBILE */
+@media (max-width: 768px) {
+    .contact h2 {
+        font-size: 1.9rem;
+        letter-spacing: 0.5px;
+        line-height: 1.3;
+        margin-bottom: 40px;
+    }
+}
 
         .contact-content {
             display: grid;
@@ -4445,19 +4480,79 @@ html, body, div, span, section, nav, header, footer, main, article {
     margin-top: 60px;
 }
 
+/* ✅ EFEITOS HOVER CORRIGIDOS - GALERIA */
 .gallery-item {
     position: relative;
     height: 250px;
     border-radius: 20px;
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.4s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(0);
 }
 
 .gallery-item:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.4s ease;
+    transform: scale(1);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);              /* ✅ ZOOM SUTIL APENAS NA IMAGEM */
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: var(--white);
+    padding: 25px 20px 20px;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-overlay h4 {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.gallery-overlay span {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ✅ MOBILE - EFEITOS MAIS LEVES */
+@media (max-width: 768px) {
+    .gallery-item {
+        height: 200px;
+        transition: all 0.3s ease;
+    }
+    
+    .gallery-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .gallery-item:hover img {
+        transform: scale(1.02);          /* ✅ ZOOM MAIS SUTIL NO MOBILE */
+    }
 }
 
 .gallery-item img {
@@ -4569,6 +4664,7 @@ html, body, div, span, section, nav, header, footer, main, article {
     padding: 20px 0;
     justify-content: center;
 }
+
 
 .version-tab {
     background: rgba(255, 255, 255, 0.1);
@@ -4781,10 +4877,625 @@ html {
     will-change: opacity, visibility;
 }
 
-        
+        /* ✅ BOTÃO WHATSAPP FLUTUANTE DISCRETO */
+.whatsapp-float {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(100px) scale(0.8);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.whatsapp-float.visible {
+    opacity: 0.85;                      /* ✅ DISCRETO - NÃO MUITO CHAMATIVO */
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+
+.whatsapp-float.scrolling {
+    opacity: 0.6;                       /* ✅ AINDA MAIS DISCRETO DURANTE SCROLL */
+    transform: scale(0.9);
+}
+
+.whatsapp-btn-float {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.whatsapp-btn-float:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+    opacity: 1;
+}
+
+.whatsapp-btn-float:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+.whatsapp-icon-float {
+    width: 28px;
+    height: 28px;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-btn-float:hover .whatsapp-icon-float {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* ✅ TOOLTIP DISCRETO */
+.whatsapp-tooltip {
+    position: absolute;
+    right: 70px;
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.whatsapp-btn-float:hover .whatsapp-tooltip {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* ✅ ANIMAÇÃO SUTIL DE PULSO (MUITO DISCRETA) */
+@keyframes subtlePulse {
+    0%, 100% { 
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3); 
+    }
+    50% { 
+        box-shadow: 0 4px 25px rgba(37, 211, 102, 0.4); 
+    }
+}
+
+.whatsapp-btn-float {
+    animation: subtlePulse 4s ease-in-out infinite;  /* ✅ PULSO A CADA 4 SEGUNDOS */
+}
+
+/* ✅ MOBILE - AINDA MAIS DISCRETO */
+@media (max-width: 768px) {
+    .whatsapp-float {
+        right: 15px;
+        bottom: 15px;
+    }
+    
+    .whatsapp-btn-float {
+        width: 50px;
+        height: 50px;
+        box-shadow: 0 3px 15px rgba(37, 211, 102, 0.25);
+    }
+    
+    .whatsapp-icon-float {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .whatsapp-tooltip {
+        right: 60px;
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .whatsapp-float.visible {
+        opacity: 0.75;                   /* ✅ MAIS DISCRETO NO MOBILE */
+    }
+}
+
+@media (max-width: 480px) {
+    .whatsapp-float {
+        right: 12px;
+        bottom: 12px;
+    }
+    
+    .whatsapp-btn-float {
+        width: 46px;
+        height: 46px;
+    }
+    
+    .whatsapp-icon-float {
+        width: 22px;
+        height: 22px;
+    }
+}
+/* 🚨 CORREÇÃO DEFINITIVA - ZERO ZOOM */
+.amenity-card,
+.gallery-item,
+.render-card {
+    overflow: hidden !important;        /* ✅ CORTA QUALQUER OVERFLOW */
+}
+
+.amenity-card:hover,
+.gallery-item:hover,
+.render-card:hover {
+    transform: none !important;         /* ✅ ZERO TRANSFORMAÇÃO */
+}
+
+/* ✅ IMAGENS DE FUNDO SEM ZOOM */
+.amenity-card {
+    background-size: cover !important;
+    background-position: center !important;
+    transition: box-shadow 0.3s ease !important;  /* ✅ SÓ SOMBRA */
+}
+
+.amenity-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+    transform: none !important;
+}
+
+/* ✅ QUALQUER IMG DENTRO DOS CARDS */
+.amenity-card img,
+.gallery-item img,
+.render-card img {
+    transition: none !important;
+    transform: none !important;
+}
+
+.amenity-card:hover img,
+.gallery-item:hover img,
+.render-card:hover img {
+    transform: none !important;
+    scale: none !important;
+}
+
+/* 🔨 FORÇA BRUTA TOTAL */
+.amenities-grid *,
+.gallery-grid *,
+.renders-grid * {
+    transform: none !important;
+    scale: 1 !important;
+}
+
+.amenities-grid *:hover,
+.gallery-grid *:hover,
+.renders-grid *:hover {
+    transform: none !important;
+    scale: 1 !important;
+}
+/* ✅ EFEITOS HOVER - FORÇA TOTAL */
+.gallery-item {
+    position: relative !important;
+    height: 250px !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    cursor: pointer !important;
+    transition: all 0.4s ease !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    transform: translateY(0) !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3) !important;
+    z-index: 2 !important;
+}
+
+.gallery-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: all 0.4s ease !important;
+    transform: scale(1) !important;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1) !important;
+    filter: brightness(1.1) !important;
+}
+
+.gallery-overlay {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9)) !important;
+    color: var(--white) !important;
+    padding: 30px 20px 20px !important;
+    transform: translateY(100%) !important;
+    transition: transform 0.4s ease !important;
+    opacity: 0 !important;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+}
+
+.gallery-overlay h4 {
+    font-size: 1.4rem !important;
+    margin-bottom: 5px !important;
+    font-weight: 600 !important;
+    color: var(--white) !important;
+}
+
+.gallery-overlay span {
+    font-size: 0.9rem !important;
+    opacity: 0.9 !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ✅ MOBILE */
+@media (max-width: 768px) {
+    .gallery-item {
+        height: 200px !important;
+    }
+    
+    .gallery-item:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25) !important;
+    }
+    
+    .gallery-item:hover img {
+        transform: scale(1.05) !important;
+    }
+}
+/* ✅ REMOVER CONFLITOS */
+.gallery-grid * {
+    transform: revert !important;
+}
+
+.gallery-item:hover * {
+    transform: revert !important;
+}
+
+/* ✅ REFORÇAR EFEITOS */
+.gallery-grid .gallery-item:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+}
+
+.gallery-grid .gallery-item:hover img {
+    transform: scale(1.1) !important;
+}
+
+.gallery-grid .gallery-item:hover .gallery-overlay {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+}
+/* ✅ CENTRALIZAÇÃO GERAL PARA DESKTOP/NOTEBOOK */
+@media (min-width: 769px) {
+    /* TODAS AS SEÇÕES CENTRALIZADAS */
+    .concept .container,
+    .amenities .container,
+    .floor-plans .container,
+    .gallery .container,
+    .contact .container,
+    #concept .container,
+    #amenities .container,
+    #plans .container,
+    #renders .container,
+    #contact .container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        max-width: 1400px !important;
+        margin: 0 auto !important;
+        padding: 0 50px !important;
+    }
+    
+    /* CONCEPT SECTION - CENTRALIZADA */
+    .concept-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 60px !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+    }
+    
+    .concept-visual {
+        order: -1 !important;
+        margin: 0 auto !important;
+    }
+    
+    /* AMENITIES - GRID CENTRALIZADA */
+    .amenities-grid {
+        width: 100% !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)) !important;
+        gap: 40px !important;
+        justify-items: center !important;
+    }
+    
+    /* FLOOR PLANS - CENTRALIZADA */
+    .plan-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 40px !important;
+        max-width: 1000px !important;
+        margin: 0 auto !important;
+    }
+    
+    .plan-visual {
+        order: -1 !important;
+    }
+    
+    /* GALLERY - CENTRALIZADA */
+    .gallery-grid {
+        width: 100% !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+        gap: 30px !important;
+        justify-items: center !important;
+    }
+    
+    /* CONTACT - CENTRALIZADA */
+    .contact-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 50px !important;
+        max-width: 800px !important;
+        margin: 0 auto !important;
+    }
+    
+    .contact-whatsapp {
+        width: 100% !important;
+        max-width: 600px !important;
+        margin: 0 auto !important;
+    }
+}
+
+/* ✅ DESKTOP GRANDE (1024px+) */
+@media (min-width: 1024px) {
+    .concept .container,
+    .amenities .container,
+    .floor-plans .container,
+    .gallery .container,
+    .contact .container {
+        padding: 0 80px !important;
+    }
+    
+    /* TÍTULOS MAIORES NO DESKTOP */
+    .concept h2,
+    .amenities h2,
+    .floor-plans h2,
+    .gallery h2,
+    .contact h2 {
+        font-size: 3.5rem !important;
+        margin-bottom: 100px !important;
+    }
+    
+    .amenities-grid {
+        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)) !important;
+        gap: 50px !important;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+        gap: 40px !important;
+    }
+}
+
+/* ✅ TODOS OS TÍTULOS CENTRALIZADOS */
+.concept h2,
+.amenities h2,
+.floor-plans h2,
+.gallery h2,
+.contact h2,
+#concept h2,
+#amenities h2,
+#plans h2,
+#renders h2,
+#contact h2,
+section[id="renders"] h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem) !important;
+    text-align: center !important;
+    margin-bottom: 80px !important;
+    color: var(--white) !important;
+    font-weight: 700 !important;
+    text-shadow: 0 0 30px var(--accent-gold) !important;
+    font-family: 'Playfair Display', serif !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 10 !important;
+    position: relative !important;
+    width: 100% !important;
+}
+
+/* ✅ TÍTULOS ESCUROS (CONCEPT E FLOOR PLANS) */
+.concept h2,
+.floor-plans h2,
+#concept h2,
+#plans h2 {
+    color: var(--primary-black) !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+/* ✅ GALERIA COM FORMATO UNIFORME */
+.gallery-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 30px !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+.gallery-item {
+    position: relative !important;
+    width: 100% !important;
+    height: 280px !important;              /* ✅ ALTURA FIXA IGUAL PARA TODOS */
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    cursor: pointer !important;
+    transition: all 0.4s ease !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+.gallery-item:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+.gallery-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;          /* ✅ PREENCHE SEM DISTORCER */
+    object-position: center !important;
+    transition: all 0.3s ease !important;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05) !important;     /* ✅ ZOOM SUTIL */
+}
+
+.gallery-overlay {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85)) !important;
+    color: var(--white) !important;
+    padding: 25px 20px 18px !important;
+    transform: translateY(100%) !important;
+    transition: all 0.3s ease !important;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0) !important;
+}
+
+.gallery-overlay h4 {
+    font-size: 1.3rem !important;
+    margin-bottom: 5px !important;
+    font-weight: 600 !important;
+    color: var(--white) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.gallery-overlay span {
+    font-size: 0.9rem !important;
+    opacity: 0.9 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* ✅ DESKTOP GRANDE */
+@media (min-width: 1024px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, 1fr) !important;  /* ✅ 4 COLUNAS FIXAS */
+        gap: 35px !important;
+        max-width: 1300px !important;
+    }
+    
+    .gallery-item {
+        height: 300px !important;           /* ✅ ALTURA MAIOR NO DESKTOP */
+    }
+}
+
+/* ✅ TABLET */
+@media (max-width: 1023px) and (min-width: 769px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr) !important;  /* ✅ 3 COLUNAS */
+        gap: 25px !important;
+    }
+    
+    .gallery-item {
+        height: 260px !important;
+    }
+}
+
+/* ✅ MOBILE */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr) !important;  /* ✅ 2 COLUNAS */
+        gap: 20px !important;
+    }
+    
+    .gallery-item {
+        height: 200px !important;
+    }
+    
+    .gallery-overlay {
+        padding: 15px 12px 12px !important;
+    }
+    
+    .gallery-overlay h4 {
+        font-size: 1.1rem !important;
+    }
+    
+    .gallery-overlay span {
+        font-size: 0.8rem !important;
+    }
+}
+
+/* ✅ MOBILE PEQUENO */
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr !important;             /* ✅ 1 COLUNA */
+        gap: 15px !important;
+    }
+    
+    .gallery-item {
+        height: 220px !important;
+    }
+}
+
+/* ✅ GARANTIR QUE TODAS AS IMAGENS FIQUEM IGUAIS */
+.gallery-item:nth-child(1),
+.gallery-item:nth-child(2),
+.gallery-item:nth-child(3),
+.gallery-item:nth-child(4),
+.gallery-item:nth-child(5),
+.gallery-item:nth-child(6),
+.gallery-item:nth-child(7),
+.gallery-item:nth-child(8),
+.gallery-item:nth-child(9),
+.gallery-item:nth-child(10) {
+    width: 100% !important;
+    height: inherit !important;
+    aspect-ratio: unset !important;
+}
     </style>
 </head>
 <body>
+    <!-- ✅ BOTÃO WHATSAPP FLUTUANTE -->
+<div class="whatsapp-float" id="whatsapp-float">
+    <a href="https://wa.me/5511999999999?text=Olá! Tenho interesse no Residencial Emboabas e gostaria de mais informações." 
+       target="_blank" class="whatsapp-btn-float">
+        <svg class="whatsapp-icon-float" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 2.079.53 4.034 1.476 5.709L0 24l6.523-1.464c1.61.855 3.44 1.348 5.494 1.348C18.634 23.883 24 18.517 24 11.896 24 5.275 18.634-.001 12.017-.001zM12.017 2.186c5.421 0 9.81 4.389 9.81 9.81s-4.389 9.81-9.81 9.81c-1.714 0-3.319-.439-4.71-1.21l-.329-.195-3.414.766.766-3.414-.195-.329c-.771-1.391-1.21-2.996-1.21-4.71 0-5.421 4.389-9.81 9.81-9.81zm5.895 11.176c-.291-.146-1.726-.852-1.994-.95-.268-.098-.463-.146-.658.146-.195.293-.756.95-.926 1.146-.171.195-.341.22-.632.073-.291-.146-1.229-.453-2.341-1.445-.865-.772-1.449-1.726-1.619-2.017-.171-.291-.018-.45.128-.594.131-.129.291-.341.437-.512.146-.171.195-.293.293-.488.098-.195.049-.366-.024-.512-.073-.146-.658-1.588-.902-2.176-.238-.573-.479-.496-.658-.506-.171-.01-.366-.012-.561-.012-.195 0-.512.073-.78.366-.268.293-1.024 1.001-1.024 2.442 0 1.441 1.049 2.835 1.195 3.031.146.195 2.056 3.14 4.981 4.404.696.301 1.239.481 1.663.616.698.222 1.334.191 1.838.115.561-.084 1.726-.706 1.969-1.387.244-.682.244-1.268.171-1.387-.073-.122-.268-.195-.56-.342z"/>
+        </svg>
+        <span class="whatsapp-tooltip">Fale conosco no WhatsApp</span>
+    </a>
+</div>
     <!-- Modal da Planta 3D -->
 <div class="plant-modal" id="plant-modal">
     <div class="plant-modal-overlay"></div>
@@ -4837,7 +5548,7 @@ html {
                 <li><a href="#concept">Conceito</a></li>
                 <li><a href="#amenities">Amenidades</a></li>
                 <li><a href="#plans">Plantas</a></li>
-                <li><a href="#renders">Galeria</a></li>
+                <li><a href="#renders">Imagens 3D</a></li>
                 <li><a href="#contact" >Contato</a></li>
                 <li><a href="https://b2n-tour360.netlify.app/" target="_blank">Tour 360°</a></li>
 
@@ -4853,7 +5564,7 @@ html {
             <p class="subtitle">Viva a experiência de morar em um refúgio contemporâneo,
 onde cada detalhe foi projetado para despertar os sentidos.</p>
             <div class="cta-group">
-                <a href="#contact" class="cta-button">
+                <a href="#renders" class="cta-button">
                     <span></span> Conhecer o projeto
                 </a>
                 <a href="#plans" class="cta-button cta-secondary">
@@ -4927,8 +5638,7 @@ Ideal para quem busca viver com mais qualidade e discrição</small>
     <!-- Amenities Section -->
     <section class="section amenities" id="amenities">
         <div class="container">
-            <h2 class="serif-font fade-in">Cada detalhe do Residencial Emboabas foi pensado para
-oferecer sofisticação e conforto:</h2>
+            <h2 class="serif-font fade-in">Sofisticação em cada detalhe</h2>
             <div class="amenities-grid">
                <div class="amenity-card fade-in" style="background-image: url('./INTERNO11.png');">
     <div class="amenity-icon"></div>
@@ -4985,10 +5695,10 @@ oferecer sofisticação e conforto:</h2>
     </div>
 </section>
 
-   <!-- Advanced Gallery Section -->
+<!-- Advanced Gallery Section -->
 <section class="section gallery" id="renders">
     <div class="container">
-        <h2 class="serif-font fade-in">Galeria de Ambientes</h2>
+        <h2 class="serif-font fade-in" style="font-size: 3rem; text-align: center; margin-bottom: 80px; color: white; font-weight: 700; display: block !important;">Galeria de Ambientes</h2>
         
         <!-- Grid de Imagens -->
         <div class="gallery-grid">
@@ -6768,17 +7478,24 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Scroll de imagens inicializado!');
 });
 // ✅ OTIMIZAR ATRIBUTOS HTML DAS IMAGENS
+// ✅ OTIMIZAR ATRIBUTOS HTML DAS IMAGENS E VÍDEOS
 function optimizeImages() {
     // Otimizar todas as imagens
     document.querySelectorAll('img').forEach(img => {
-        img.setAttribute('loading', 'eager');    // ✅ CARREGAMENTO RÁPIDO
-        img.setAttribute('decoding', 'async');   // ✅ DECODIFICAÇÃO ASSÍNCRONA
+        img.setAttribute('loading', 'eager');
+        img.setAttribute('decoding', 'async');
     });
     
-    // Otimizar vídeos
+    // ✅ CARREGAR VÍDEO DE FORMA OTIMIZADA
     document.querySelectorAll('video').forEach(video => {
-        video.setAttribute('preload', 'auto');   // ✅ PRÉ-CARREGAR VÍDEO
-        video.setAttribute('loading', 'eager');  // ✅ CARREGAMENTO RÁPIDO
+        video.setAttribute('preload', 'metadata');  // ✅ SÓ METADATA PRIMEIRO
+        video.setAttribute('loading', 'eager');
+        
+        // ✅ CARREGAR VÍDEO COMPLETO APÓS 2 SEGUNDOS
+        setTimeout(() => {
+            video.setAttribute('preload', 'auto');
+            video.load(); // ✅ RECARREGAR COM PRELOAD COMPLETO
+        }, 2000);
     });
     
     console.log('✅ Imagens e vídeos otimizados!');
@@ -6793,7 +7510,130 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('🎯 Site inicializado com otimizações HTML!');
 });
+// ✅ WHATSAPP FLUTUANTE COM SCROLL INTELIGENTE
+function initializeWhatsAppFloat() {
+    const whatsappFloat = document.getElementById('whatsapp-float');
+    if (!whatsappFloat) return;
+    
+    let scrollTimeout;
+    let lastScrollY = 0;
+    let isScrolling = false;
+    
+    function handleScroll() {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        // ✅ APARECER APÓS 200px DE SCROLL
+        if (scrollY > 200) {
+            whatsappFloat.classList.add('visible');
+        } else {
+            whatsappFloat.classList.remove('visible');
+            return;
+        }
+        
+        // ✅ EFEITO DURANTE SCROLL (mais discreto)
+        if (!isScrolling) {
+            isScrolling = true;
+            whatsappFloat.classList.add('scrolling');
+        }
+        
+        // ✅ CLEAR TIMEOUT ANTERIOR
+        clearTimeout(scrollTimeout);
+        
+        // ✅ REMOVER EFEITO DE SCROLL APÓS 150ms SEM SCROLL
+        scrollTimeout = setTimeout(() => {
+            isScrolling = false;
+            whatsappFloat.classList.remove('scrolling');
+        }, 150);
+        
+        // ✅ ESCONDER PERTO DO FOOTER (opcional)
+        const footerDistance = documentHeight - scrollY - windowHeight;
+        if (footerDistance < 100) {
+            whatsappFloat.style.opacity = '0.4';
+            whatsappFloat.style.transform = 'translateY(10px) scale(0.95)';
+        } else {
+            whatsappFloat.style.opacity = '';
+            whatsappFloat.style.transform = '';
+        }
+        
+        lastScrollY = scrollY;
+    }
+    
+    // ✅ THROTTLE DO SCROLL PARA PERFORMANCE
+    let ticking = false;
+    function optimizedScrollHandler() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                handleScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+    
+    // ✅ EVENTOS
+    window.addEventListener('scroll', optimizedScrollHandler, { passive: true });
+    
+    // ✅ APARECER SUAVEMENTE APÓS 3 SEGUNDOS SE JÁ ESTIVER NO MEIO DA PÁGINA
+    setTimeout(() => {
+        if (window.scrollY > 200) {
+            whatsappFloat.classList.add('visible');
+        }
+    }, 3000);
+    
+    console.log('💚 WhatsApp flutuante inicializado!');
+}
 
+// ✅ ADICIONAR NA INICIALIZAÇÃO PRINCIPAL
+document.addEventListener('DOMContentLoaded', function() {
+    // ... seu código existente ...
+    
+    // ADICIONAR ESTA LINHA:
+    initializeWhatsAppFloat();
+    
+    console.log('🎯 WhatsApp flutuante ativo!');
+});
+// ✅ OTIMIZAR ABERTURA DO MODAL
+function openGalleryModal(room, imageIndex = 0) {
+    const modal = document.getElementById('gallery-modal');
+    
+    // ✅ MOSTRAR MODAL IMEDIATAMENTE
+    modal.style.display = 'block';
+    modal.style.opacity = '0';
+    
+    // ✅ ANIMAÇÃO MAIS RÁPIDA
+    requestAnimationFrame(() => {
+        modal.style.transition = 'opacity 0.2s ease';
+        modal.style.opacity = '1';
+    });
+    
+    currentRoom = room;
+    currentImageIndex = imageIndex;
+    currentVersionIndex = 0;
+    
+    const roomData = galleryData[room];
+    
+    // ✅ CARREGAR TUDO EM PARALELO
+    Promise.all([
+        updateModalTitle(roomData.title),
+        setupVersionTabs(),
+        updateModalImage(),
+        generateThumbnails()
+    ]).then(() => {
+        console.log('✅ Modal carregado rapidamente!');
+    });
+    
+    document.body.style.overflow = 'hidden';
+}
+
+// ✅ FUNÇÃO OTIMIZADA PARA TÍTULO
+function updateModalTitle(title) {
+    return new Promise(resolve => {
+        document.getElementById('modal-room-title').textContent = title;
+        resolve();
+    });
+}
     </script>
 </body>
 </html>
