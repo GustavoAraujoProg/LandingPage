@@ -5483,6 +5483,118 @@ section[id="renders"] h2 {
     height: inherit !important;
     aspect-ratio: unset !important;
 }
+/* ✅ TÍTULOS ELEGANTES SEM BRILHO */
+.concept h2,
+.amenities h2,
+.floor-plans h2,
+.gallery h2,
+.contact h2,
+#concept h2,
+#amenities h2,
+#plans h2,
+#renders h2,
+#contact h2,
+section[id="renders"] h2 {
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem) !important;  /* ✅ POUCO MENOR */
+    text-align: center !important;
+    margin-bottom: 80px !important;
+    font-weight: 400 !important;                          /* ✅ MAIS FINO E ELEGANTE */
+    font-family: 'Playfair Display', serif !important;
+    display: block !important;
+    opacity: 0.95 !important;                            /* ✅ LEVEMENTE TRANSPARENTE */
+    visibility: visible !important;
+    z-index: 10 !important;
+    position: relative !important;
+    width: 100% !important;
+    line-height: 1.3 !important;                         /* ✅ RESPIRAÇÃO MELHOR */
+    letter-spacing: 0.5px !important;                    /* ✅ ESPAÇAMENTO SUTIL */
+    text-shadow: none !important;                        /* ✅ SEM BRILHO */
+    font-style: normal !important;                       /* ✅ SEM ITÁLICO */
+}
+
+/* ✅ TÍTULOS ESCUROS (CONCEPT E FLOOR PLANS) */
+.concept h2,
+.floor-plans h2,
+#concept h2,
+#plans h2 {
+    color: var(--primary-black) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;  /* ✅ SOMBRA MUITO SUTIL */
+}
+
+/* ✅ TÍTULOS CLAROS (AMENITIES, GALLERY, CONTACT) */
+.amenities h2,
+.gallery h2,
+.contact h2,
+#amenities h2,
+#renders h2,
+#contact h2,
+section[id="renders"] h2 {
+    color: rgba(255, 255, 255, 0.92) !important;        /* ✅ BRANCO SUAVE */
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15) !important;  /* ✅ SOMBRA DISCRETA */
+}
+
+/* ✅ DESKTOP - TÍTULOS MAIORES MAS ELEGANTES */
+@media (min-width: 1024px) {
+    .concept h2,
+    .amenities h2,
+    .floor-plans h2,
+    .gallery h2,
+    .contact h2 {
+        font-size: 3.2rem !important;                   /* ✅ GRANDE MAS NÃO EXAGERADO */
+        margin-bottom: 90px !important;
+        letter-spacing: 1px !important;                 /* ✅ MAIS ESPAÇAMENTO */
+    }
+}
+
+/* ✅ TABLET */
+@media (max-width: 1023px) and (min-width: 769px) {
+    .concept h2,
+    .amenities h2,
+    .floor-plans h2,
+    .gallery h2,
+    .contact h2 {
+        font-size: 2.6rem !important;
+        margin-bottom: 60px !important;
+        letter-spacing: 0.8px !important;
+    }
+}
+
+/* ✅ MOBILE */
+@media (max-width: 768px) {
+    .concept h2,
+    .amenities h2,
+    .floor-plans h2,
+    .gallery h2,
+    .contact h2 {
+        font-size: 1.9rem !important;
+        margin-bottom: 40px !important;
+        line-height: 1.2 !important;
+        letter-spacing: 0.3px !important;
+        opacity: 1 !important;                          /* ✅ OPACIDADE TOTAL NO MOBILE */
+    }
+}
+
+/* ✅ MOBILE PEQUENO */
+@media (max-width: 480px) {
+    .concept h2,
+    .amenities h2,
+    .floor-plans h2,
+    .gallery h2,
+    .contact h2 {
+        font-size: 1.7rem !important;
+        letter-spacing: 0.2px !important;
+    }
+}
+
+/* ✅ EFEITO SUTIL NO HOVER (OPCIONAL) */
+.concept h2:hover,
+.amenities h2:hover,
+.floor-plans h2:hover,
+.gallery h2:hover,
+.contact h2:hover {
+    opacity: 1 !important;
+    transition: opacity 0.3s ease !important;
+}
     </style>
 </head>
 <body>
@@ -5546,7 +5658,7 @@ section[id="renders"] h2 {
 
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="#concept">Conceito</a></li>
-                <li><a href="#amenities">Amenidades</a></li>
+                <li><a href="#amenities">Comodidades</a></li>
                 <li><a href="#plans">Plantas</a></li>
                 <li><a href="#renders">Imagens 3D</a></li>
                 <li><a href="#contact" >Contato</a></li>
