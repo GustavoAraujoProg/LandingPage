@@ -739,7 +739,7 @@ video {
             font-size: clamp(3.5rem, 8vw, 7rem);
             font-weight: 900;
             line-height: 1;
-            margin-bottom: 30px;
+            margin-bottom: 15px; 
             color: var(--white);
             text-align: left;
             opacity: 0;
@@ -829,7 +829,7 @@ video {
 
         /* Section Styling */
         .section {
-            padding: 120px 0;
+            padding: 80px 0;
             position: relative;
         }
 
@@ -841,7 +841,7 @@ video {
 
         /* Concept Section */
         .concept {
-            
+            padding: 60px 0;   
             background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
             position: relative;
         }
@@ -5601,6 +5601,146 @@ section[id="renders"] h2 {
 
 
 
+
+/* 🚀 MOSTRAR VÍDEO INTEIRO - SEM CORTAR LOGO */
+.concept-video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* ✅ Mostra tudo sem cortar */
+    object-position: center !important;
+    background: #f5f5f5 !important; /* ✅ Fundo cinza claro nas bordas */
+}
+
+.video-container {
+    width: 100% !important;
+    height: 100% !important;
+    background: #f5f5f5 !important; /* ✅ Fundo para combinar */
+    border-radius: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.concept-visual {
+    height: 500px !important; /* ✅ Altura menor para dar mais espaço */
+    background: #f5f5f5 !important;
+    border-radius: 20px !important;
+    height: auto !important;
+    min-height: 400px !important;
+
+}
+/* 🖥️ FORÇAR VÍDEO NO DESKTOP */
+@media (min-width: 769px) {
+    .concept-content {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 100px !important;
+        align-items: center !important;
+    }
+    
+    .concept-visual {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: 500px !important;
+        order: 2 !important; /* Força ficar do lado direito */
+    }
+    
+    .slide-in-left {
+        order: 1 !important; /* Texto do lado esquerdo */
+    }
+    
+    .video-container {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+    
+    .concept-video {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+}
+
+/* 📱 MOBILE (manter como está) */
+@media (max-width: 768px) {
+    .concept-visual {
+        height: 350px !important;
+        order: -1 !important; /* Vídeo em cima no mobile */
+    }
+}
+/* 🚀 FORÇAR LAYOUT 2 COLUNAS NO DESKTOP */
+@media (min-width: 1024px) {
+    .concept-content {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 60px !important;
+        align-items: center !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+    }
+    
+    .slide-in-left {
+        width: 100% !important;
+    }
+    
+    .concept-visual {
+        display: block !important;
+        width: 100% !important;
+        height: 400px !important;
+        background: #333 !important;
+        border-radius: 20px !important;
+        overflow: hidden !important;
+    }
+    
+    .video-container {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+    }
+    
+    .concept-video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+    }
+}
+
+/* 🔍 DEBUG - VER SE A ÁREA EXISTE */
+.concept-visual {
+    background: red !important;
+    min-height: 300px !important;
+    display: block !important;
+}
+/* 🚀 VÍDEO SEM ZOOM E SEM CORTE - SOLUÇÃO DEFINITIVA */
+.concept-visual {
+    width: 100% !important;
+    height: auto !important; /* ✅ ALTURA AUTOMÁTICA */
+    aspect-ratio: 16/9 !important; /* ✅ PROPORÇÃO CORRETA */
+    background: #f5f5f5 !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    min-height: 300px !important;
+}
+
+.video-container {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
+}
+
+.concept-video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: fill !important; /* ✅ PREENCHE SEM CORTAR */
+    border-radius: 20px !important;
+    display: block !important;
+}
+
+
     </style>
 </head>
 <body>
@@ -5741,11 +5881,9 @@ Ideal para quem busca viver com mais qualidade e discrição</small>
                 </div>
                                     <div class="concept-visual slide-in-right">
                                         <div class="video-container">
-                       <video autoplay muted loop playsinline class="concept-video">
-                            <source src="./video.MP4" type="video/mp4">
-                            <source src="./seu-video.webm" type="video/webm">
-                            Seu navegador não suporta vídeos.
-                        </video>
+                      <video autoplay muted loop playsinline class="concept-video" preload="auto">
+    <source src="./video.MP4" type="video/mp4">
+</video>
                     </div>
                     </div>
                 </div>
@@ -6613,7 +6751,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loadingScreen.classList.add('hidden');
             console.log('⏰ Loading removido por timeout');
         }
-    }, 4000);
+    }, 2000);
     
     // ✅ INICIALIZAÇÕES BÁSICAS
     initializeParticles();
